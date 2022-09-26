@@ -1,0 +1,11 @@
+.landing {
+    padding: 5rem;
+}
+
+.landing Button {
+    align-self: center;
+}
+
+.landing p {
+    font-size: 1.5rem;
+}
