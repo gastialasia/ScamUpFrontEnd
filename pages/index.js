@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import styles from "../styles/Landing.module.css";
 
 function LandingPage() {
@@ -11,13 +12,26 @@ function LandingPage() {
 
     return (
         <div className={styles.landing}>
+            <Head>
+                <title>ScamUp</title>
+                <meta
+                    name="viewport"
+                    content="initial-scale=1.0, width=device-width"
+                />
+                <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-256/s-characters-character-alphabet-letter-36031.png"></link>
+            </Head>
             <h1>Welcome to Scam Up!</h1>
             <div className={styles.leftBox}>
                 <h2>Your safe place on the Internet</h2>
                 <p>
-                Scams can happen in a myriad of ways- via phishing emails, social media, SMS messages on your mobile phone, fake tech support phone calls, scareware and more. There are also new scam tendencies around cryptocurrencies.
-                <br/>
-Our main goal is to decrease scam rates all around the world gathering different tools which are currently avaible but are difficult to use. Please contact us for more info.
+                    Scams can happen in a myriad of ways- via phishing emails,
+                    social media, SMS messages on your mobile phone, fake tech
+                    support phone calls, scareware and more. There are also new
+                    scam tendencies around cryptocurrencies.
+                    <br />
+                    Our main goal is to decrease scam rates all around the world
+                    gathering different tools which are currently avaible but
+                    are difficult to use. Please contact us for more info.
                 </p>
             </div>
             <div className={styles.rightBox}>
