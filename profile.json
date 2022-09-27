@@ -1,0 +1,16 @@
+{
+    "user": {
+        "given_name": "MATIAS DANIEL",
+        "family_name": "DELLA TORRE",
+        "nickname": "mdella",
+        "name": "MATIAS DANIEL DELLA TORRE",
+        "picture": "https://lh3.googleusercontent.com/a-/ACNPEu-bt_cXljeOmda3xF70AwJMa8TyQB4L0Ff8oVroDQ=s96-c",
+        "locale": "es",
+        "updated_at": "2022-09-27T11:54:06.488Z",
+        "email": "mdella@itba.edu.ar",
+        "email_verified": true,
+        "sub": "google-oauth2|105974613809937526674",
+        "sid": "5H-dmtKBiAUJkb-S0uJ5WhAnhADzubC-"
+    },
+    "status": 201
+}
