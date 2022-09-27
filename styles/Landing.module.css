@@ -1,11 +1,41 @@
 .landing {
-    padding: 5rem;
+    padding: 1rem;
 }
 
 .landing Button {
-    align-self: center;
+    margin: 1.5rem auto;
+    display: block;
 }
 
 .landing p {
     font-size: 1.5rem;
+}
+
+.landing h1{
+    font-size: 3rem;
+    margin: 1rem;
+}
+
+.leftBox{
+    width: 50%;
+    float:left; /* add this */
+    padding-right: 3%;
+    text-align: justify;
+}
+
+.rightBox{
+    float: right; /* add this */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightBox img{
+    width: 80%;
+}
+
+.centerBox{
+    float: right; /* add this */
+    width: 100%;
+    align-items: center;
 }

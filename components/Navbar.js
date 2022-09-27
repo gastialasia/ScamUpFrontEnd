@@ -14,11 +14,6 @@ function Navbar() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/search'>
-                        <a>Search for scams</a>
-                    </Link>
-                </li>
-                <li>
                     <Link href='/pricing'>
                         <a>Pricing</a>
                     </Link>
