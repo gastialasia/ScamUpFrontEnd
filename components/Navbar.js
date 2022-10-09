@@ -24,7 +24,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='https://scam-up.herokuapp.com/login'>
+                    <Link href='/login'>
                         <a>Login</a>
                     </Link>
                 </li>
