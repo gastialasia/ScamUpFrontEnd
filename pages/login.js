@@ -1,7 +1,7 @@
 import styles from '../styles/login.module.css';
 import { Paper, IconButton, InputAdornment, TextField } from '@mui/material'
 import { useState } from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material/Visibility';
+import { Visibility, VisibilityOff} from '@mui/icons-material';
 
 function LoginPage() {
     const [email,setEmail] = useState('');
@@ -50,12 +50,22 @@ function LoginPage() {
                     <br></br>
                     <h2 className={styles.field}>Log in</h2>
                     <div className={styles.field}>
-                        {!erroremail?<TextField id="email" label="Email" variant="outlined" onChange={e=>setEmail(e.target.value)} />:<TextField error id="outlined-error" label="Error" helperText="Invalid email" onChange={e=>setEmail(e.target.value)} />}
+                        <TextField id="email" label={erroremail?"Error":"Email"} error={erroremail} helperText={erroremail?"Invalid email":""} variant="outlined" sx={{m:1, width:'70%'}} onChange={e=>setEmail(e.target.value)} />
                     </div>
                     <div className={styles.field}>
-                        {!errorpass?
-                        <TextField id="password" label="Password" variant="outlined" onChange={e=>setPassword(e.target.value)} />
-                        :<TextField error id="outlined-error" label="Error" helperText="Password is too short" onChange={e=>setPassword(e.target.value)} />}
+                        <TextField id="password" label={errorpass?"Error":"Password"} variant="outlined" sx={{m:1, width:'70%'}} error={errorpass} helperText={errorpass?"password must be 8 characters":""} type={values.showPassword ? 'text' : 'password'} onChange={e=>setPassword(e.target.value)} InputProps={{
+                            endAdornment:(
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                  </IconButton>
+                                </InputAdornment>
+                              )}} />
                     </div>    
                     <div className={styles.container}>
                         <button className={styles.button}>Submit</button>
