@@ -2,6 +2,7 @@ import styles from '../styles/login.module.css';
 import { Paper, IconButton, InputAdornment, TextField } from '@mui/material'
 import { useState } from 'react';
 import { Visibility, VisibilityOff} from '@mui/icons-material';
+import bcrypt from 'bcryptjs';
 
 function LoginPage() {
     const [email,setEmail] = useState('');
@@ -36,6 +37,13 @@ function LoginPage() {
             console.log(JSON.stringify({email: email, password: password}));
         setErrorEmail(!validEmail);
         setErrorPass(!validPassword);
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(e.target.password.value,salt);
+        console.log(hashedPassword);
+        const wasCorrect = bcrypt.compareSync("12345678", hashedPassword);
+        console.log(wasCorrect);
+
+
     }
 
     function isValidEmail(email) {
