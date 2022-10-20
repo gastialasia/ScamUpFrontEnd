@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "../styles/Landing.module.css";
 import { Grid, Card, Text } from "@nextui-org/react";
 import { Image } from '@nextui-org/react'
+import { Spacer } from '@nextui-org/react';
 
 function LandingPage() {
 
@@ -21,7 +22,8 @@ function LandingPage() {
                 <h3>Your safe place on the Internet</h3>
             </Grid.Container>
             
-            <Grid.Container gap={2} justify="center">
+            <Grid.Container gap={2} justify="space-around">
+                <Spacer />
                 <Grid xs={4}>
                     <p>
                         Scams can happen in a myriad of ways- via phishing emails,
@@ -36,6 +38,7 @@ function LandingPage() {
                  <Grid xs={4}>
                     <Image src="/assets/scam-img.png"></Image>
                  </Grid>
+                 <Spacer />
             </Grid.Container>
             
             <div className={styles.centerBox}>
