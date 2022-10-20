@@ -1,9 +1,12 @@
-import { Button } from "@mui/material";
+import { Button } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Landing.module.css";
+import { Grid, Card, Text } from "@nextui-org/react";
+import { Image } from '@nextui-org/react'
 
 function LandingPage() {
+
     const router = useRouter();
 
     function handleEvent() {
@@ -12,35 +15,31 @@ function LandingPage() {
 
     return (
         <div className={styles.landing}>
-            <Head>
-                <title>ScamUp</title>
-                <meta
-                    name="viewport"
-                    content="initial-scale=1.0, width=device-width"
-                />
-                <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-256/s-characters-character-alphabet-letter-36031.png"></link>
-            </Head>
-            <h1>Welcome to Scam Up!</h1>
-            <div className={styles.leftBox}>
-                <h2>Your safe place on the Internet</h2>
-                <p>
-                    Scams can happen in a myriad of ways- via phishing emails,
-                    social media, SMS messages on your mobile phone, fake tech
-                    support phone calls, scareware and more. There are also new
-                    scam tendencies around cryptocurrencies.
-                    <br />
-                    Our main goal is to decrease scam rates all around the world
-                    gathering different tools which are currently avaible but
-                    are difficult to use. Please contact us for more info.
-                </p>
-            </div>
-            <div className={styles.rightBox}>
-                <img src="https://www.cisco.com/c/es_mx/products/security/what-is-it-security/jcr:content/Grid/category_atl_42d8/layout-category-atl/anchor_info_670b.img.jpg/1632852157417.jpg"></img>
-            </div>
+            
+            <Grid.Container justify="center" direction="column" alignContent="center">
+                <h2>Welcome to Scam Up!</h2>
+                <h3>Your safe place on the Internet</h3>
+            </Grid.Container>
+            
+            <Grid.Container gap={2} justify="center">
+                <Grid xs={4}>
+                    <p>
+                        Scams can happen in a myriad of ways- via phishing emails,
+                        social media, SMS messages on your mobile phone, fake tech
+                        support phone calls, scareware and more. There are also new
+                        scam tendencies around cryptocurrencies.
+                        <br />
+                        Our main goal is to decrease scam rates all around the world
+                        gathering different tools which are currently available but difficult to use.
+                    </p>
+                 </Grid>
+                 <Grid xs={4}>
+                    <Image src="/assets/scam-img.png"></Image>
+                 </Grid>
+            </Grid.Container>
+            
             <div className={styles.centerBox}>
-                <Button variant="contained" onClick={handleEvent} size="large">
-                    Search for scams
-                </Button>
+                <Button onClick={handleEvent} size="lg">Search for scams</Button>
             </div>
         </div>
     );
