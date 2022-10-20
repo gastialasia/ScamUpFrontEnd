@@ -1,0 +1,63 @@
+/swift_verification?swift=NATAAU33033
+
+/phone_verification?phone=+5491165191699
+
+/email_verification?mail=svalles@itba.edu.ar
+
+JSON
+{
+  mail:{email: sdl@kdjshfka},
+  phone: {telephone : 6532048}
+  swift: {swift: 81024734297}
+  kyc: null
+}
+
+
+EMAIL
+const ret = {
+  email,
+  suspicious,
+  reputation,
+  malicious_activity_recent, 
+  domain_reputation, 
+  data_breach,
+  spam, 
+  blacklisted,
+  new_domain,
+  disposable
+}
+
+PHONE
+  const ret = {
+    valid,
+    country_name,
+    carrier
+}
+
+SWIFT
+{
+  "success": true,
+  "data": {
+    "id": "HKBAAU2SBNE",
+    "bank": {
+      "id": "d7744803-1288-4955-9f53-05eb26bbef8e",
+      "country_id": "AU",
+      "code": "NATA",
+      "name": "NATIONAL AUSTRALIA BANK LIMITED"
+    },
+    "country": {
+      "id": "AU",
+      "name": "Australia"
+    },
+    "city": {
+      "id": "006d7479-8f26-4364-ab78-7e856d048b15",
+      "country_id": "AU",
+      "name": "Sydney"
+    },
+    "branch_name": "Brisbane Branch",
+    "branch_code": "BNE",
+    "address": "Hongkongbank Building, 300 Queen Street",
+    "postcode": "4000"
+  }
+}
+
