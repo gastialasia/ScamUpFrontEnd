@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import { Navbar, Text, Button, Link } from "@nextui-org/react";
 import { AcmeLogo } from "./acmeLogo";
 
@@ -18,16 +17,14 @@ export default function NavbarNUI() {
             <Navbar.Link href="#">Company</Navbar.Link>
             </Navbar.Content>
             <Navbar.Content>
-            <div styles={display}>
-                <Navbar.Link color="inherit" href="#">
-                    Login
-                </Navbar.Link>
-                <Navbar.Item>
-                    <Button auto flat as={Link} color={"primary"} href="#">
-                    Sign Up
-                    </Button>
-                </Navbar.Item>
-            </div>
+            <Navbar.Link color="inherit" href="#">
+                Login
+            </Navbar.Link>
+            <Navbar.Item>
+                <Button auto flat as={Link} color={"primary"} href="#">
+                Sign Up
+                </Button>
+            </Navbar.Item>
             </Navbar.Content>
         </Navbar>
     );
