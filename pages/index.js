@@ -1,8 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import styles from "../styles/Landing.module.css";
-import { Grid, Card, Text } from "@nextui-org/react";
+import { Grid } from "@nextui-org/react";
 import { Image } from '@nextui-org/react'
 import { Spacer } from '@nextui-org/react';
 
@@ -16,7 +15,6 @@ function LandingPage() {
 
     return (
         <div className={styles.landing}>
-            
             <Grid.Container justify="center" direction="column" alignContent="center">
                 <h2>Welcome to Scam Up!</h2>
                 <h3>Your safe place on the Internet</h3>
