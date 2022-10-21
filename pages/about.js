@@ -1,4 +1,6 @@
-function PricingPage() {
+import { IconScamUp } from "../components/icon";
+
+function AboutPage() {
 
     return (
         <div>
@@ -12,4 +14,4 @@ function PricingPage() {
     );
 }
 
-export default PricingPage;
+export default AboutPage;
