@@ -1,15 +1,18 @@
-function PricingPage() {
+import { IconScamUp } from "../components/icon";
+import { Grid } from "@nextui-org/react";
+
+function AboutPage() {
 
     return (
-        <div>
-            <h1>About us</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate</p>
+        <div style={{ padding: 15 }}>
+            <Grid.Container justify="center" direction="column" alignContent="center">
+                <h2 style={{ textAlign: 'center' }}>About us</h2>
+                <p>We are a group of Software Engineering students from Instituto Tecnológico de Buenos Aires (ITBA) and this is our project for this term. </p>
+            </Grid.Container>
         </div>
+        
     );
 }
 
-export default PricingPage;
+export default AboutPage;
+

@@ -1,11 +1,14 @@
 import "../styles/globals.css";
-import Layout from '../components/Layout'
+import Layout from "../components/Layout";
+import { NextUIProvider } from '@nextui-org/react';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <NextUIProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </NextUIProvider>
   )
 }
 
