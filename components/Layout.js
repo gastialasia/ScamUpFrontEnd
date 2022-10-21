@@ -1,11 +1,10 @@
-// components/layout.js
-
 import Navbar from "./Navbar";
+import NavbarNUI from "./NavbarNUI";
 
 export default function Layout({ children }) {
     return (
         <div>
-            <Navbar/>
+            <NavbarNUI/>
             <main>{children}</main>
         </div>
     );
