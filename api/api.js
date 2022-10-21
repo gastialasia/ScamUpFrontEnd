@@ -4,7 +4,7 @@ class Api {
 //   static token;
 
   static get baseUrl() {
-    return "http://scam-up.herokuapp.com/";
+    return "http://localhost:8080";
   }
 
   static get timeout() {
@@ -12,40 +12,22 @@ class Api {
   }
 
   static async fetch (url, controller) {
-    controller = controller || new AbortController();
-    init.signal = controller.signal;
-    const timer = setTimeout(() => controller.abort(), Api.timeout);
-    try {
-        const response = await fetch(url, init);
-        const text = await response.text();
-        const result = text ? (JSON).parse(text) : {};
-        if (result.code)
-          throw result;
-        return result;
-      } catch (error) {
-        if (error.code)
-          throw error;
-        if (error.name === "AbortError")
-          throw { "code": 98, "description": error.message.toLowerCase() };
-        else if (error.name === "TypeError")
-          throw { "code": 99, "description": error.message.toLowerCase() };
-      } finally {
-        clearTimeout(timer);
-      }
+      const response = await fetch(url);
+      return response;
   }
 
-  static async email (mail) {
-    const url = `${Api.baseUrl}/phone_verification?mail=${mail}`;
+  static async getEmailData (mail) {
+    const url = `${Api.baseUrl}/email_verification?mail=${mail}`;
     return await Api.fetch(url)
   }
 
-  static async phone (number) {
+  static async getPhoneData (number) {
     const url = `${Api.baseUrl}/phone_verification?phone=+${number}`;
     return await Api.fetch(url)
   }
 
-  static async swift (code) {
-    const url = `${Api.baseUrl}/phone_verification?phone=+${code}`;
+  static async getSwiftData (code) {
+    const url = `${Api.baseUrl}/swift_verification?swift=+${code}`;
     return await Api.fetch(url)
   }
 
