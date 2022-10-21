@@ -34,7 +34,7 @@ export default function NavbarNUI() {
 
     return (
         <div>
-            <Navbar isBordered={true} variant="sticky">
+            <Navbar isBordered variant="sticky">
                 <Button
                     light
                     color="primary"
