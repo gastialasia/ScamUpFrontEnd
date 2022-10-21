@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Collapse, Text, Input, Grid, Button } from "@nextui-org/react";
-import { Api } from "../api/api";
 
 function SearchPage() {
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
     const [code, setCode] = React.useState();
     const [KYC, setKYC] = React.useState();
+
+	const [emailResult, setEmailResult] = React.useState();
 
     const [searchType, setSearchType] = React.useState("");
     const handleChange = (event) => {
@@ -18,6 +19,8 @@ function SearchPage() {
     try {
       const res = await fetch(`http://localhost:8080/email_verification?mail=svalles@itba.edu.ar`);
       const data = await res.json();
+	  setEmailResult(data);
+	  console.log(data);
     } catch (err) {
       console.log(err);
     }
