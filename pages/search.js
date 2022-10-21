@@ -14,9 +14,12 @@ function SearchPage() {
   }
 
   return (
-    <div>
-      <h2>Search for scammers</h2>
-      <p>Expand the items below and enter the required information of the person you think is a scammer. It's not mandatory to fill all fields.</p>
+    <div style={{ padding: 15 }}>
+      <Grid.Container justify="center" direction="column" alignContent="center">
+          <h2 style={{ textAlign: 'center' }}>Search for scammers</h2>
+          <p>Expand the items below and enter the required information of the person you think is a scammer. It's not mandatory to fill all fields.</p>
+      </Grid.Container>
+      
         <Collapse.Group accordion={false} bordered css={{ margin: 50 }}>
         <Collapse title="Mail" expanded>
           <Text>
