@@ -1,19 +1,21 @@
 import * as React from "react";
-import { Collapse, Text, Input, Grid, Button, Modal, useModal} from "@nextui-org/react";
+import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading } from "@nextui-org/react";
 
 function SearchPage() {
+    //Variables for request
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
     const [code, setCode] = React.useState();
     const [KYC, setKYC] = React.useState();
 
+    //Variables for managing result
 	const [emailResult, setEmailResult] = React.useState();
+    const [phoneResult, setPhoneResult] = React.useState();
+    const [codeResult, setCodeResult] = React.useState();
+    const [KYCResult, setKYCResult] = React.useState();
 
-    const [searchType, setSearchType] = React.useState("");
-    const handleChange = (event) => {
-        setSearchType(event.target.value);
-        console.log(event.target.value);
-    };
+    //Variables for conditional rendering
+    const [loading, setLoading] = React.useState(false);
 
     const handler = () => setVisible(true);
 
@@ -24,15 +26,51 @@ function SearchPage() {
     const { setVisible, bindings } = useModal();
 
 	async function handleEmail () {
-    try {
-      const res = await fetch(`http://localhost:8080/email_verification?mail=svalles@itba.edu.ar`);
-      const data = await res.json();
-	  setEmailResult(data);
-	  handler()
-    } catch (err) {
-      console.log(err);
-    }
+        try {
+        const res = await fetch(`http://localhost:8080/email_verification?mail=${email}`);
+        const data = await res.json();
+        setEmailResult(data);
+        handler()
+        } catch (err) {
+        console.log(err);
+        }
 	};
+
+    async function handlePhone () {
+        try {
+          setLoading(true);
+          const res = await fetch(`http://localhost:8080/phone_verification?phone=+${phone}`);
+          const data = await res.json();
+          setPhoneResult(data);
+          console.log(data);
+          handler()
+        } catch (err) {
+          console.log(err);
+        }
+        setLoading(false);
+    };
+
+    async function handleSwift () {
+        try {
+            const res = await fetch(`http://localhost:8080/swift_verification?swift=${code}`);
+            const data = await res.json();
+            setCodeResult(data);
+            handler()
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    async function handleKYC () {
+        try {
+            const res = await fetch(`http://localhost:8080/kyc_verification?kyc=${KYC}`);
+            const data = await res.json();
+            setKYCResult(data);
+            handler()
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return (
         <div style={{ padding: 15 }}>
@@ -73,40 +111,83 @@ function SearchPage() {
                         </Grid>
                     </Grid.Container>
                 </Collapse>
+
                 <Collapse title="Phone number" expanded>
+                    {/* {loading && <Progress indeterminated value={25} color="primary" status="primary"/>} */}
                     <Text>Enter the phone number of the person below</Text>
-                    <Input
-                        placeholder="phone"
-                        label="phone"
-                        status="primary"
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
+                    <Grid.Container gap={2} justify="space-between">
+                        <Grid>
+                            <Input
+                            placeholder="phone"
+                            label="phone"
+                            status="primary"
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
+                        </Grid>
+                        <Grid>
+                            <Button
+                                bordered
+                                color="primary"
+                                auto
+                                onPress={handlePhone}
+                                css={{ width: 204 }}
+                            >
+                                {loading? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
+                            </Button>
+                        </Grid>
+                    </Grid.Container>
                 </Collapse>
+
                 <Collapse title="Swift Code" expanded>
-                    <Text>
-                        Enter the swift code (international banking code) of the
-                        person below
-                    </Text>
-                    <Input
-                        placeholder="swift code"
-                        label="swift code"
-                        status="primary"
-                        onChange={(e) => setCode(e.target.value)}
-                    />
+                    <Text>Enter the swift code (international banking code) of the
+                        person below</Text>
+                    <Grid.Container gap={2} justify="space-between">
+                        <Grid>
+                            <Input
+                            placeholder="swift code"
+                            label="swift code"
+                            status="primary"
+                            onChange={(e) => setCode(e.target.value)}
+                        />
+                        </Grid>
+                        <Grid>
+                            <Button
+                                bordered
+                                color="primary"
+                                auto
+                                onPress={handleSwift}
+                            >
+                                Search by swift code
+                            </Button>
+                        </Grid>
+                    </Grid.Container>
                 </Collapse>
+
                 <Collapse title="Personal ID (KYC)" expanded>
-                    <Text>
-                        Enter submit the personal ID to do an exhaustive KYC
-                        analysis of the person you think is a scammer
-                    </Text>
-                    <Input
-                        placeholder="Personal ID"
-                        label="Personal ID"
-                        status="primary"
-                        onChange={(e) => {
-                            setKYC(e.target.value);
-                        }}
-                    />
+                    <Text>Enter submit the personal ID to do an exhaustive KYC
+                        analysis of the person you think is a scammer</Text>
+                    <Grid.Container gap={2} justify="space-between">
+                        <Grid>
+                            <Input
+                            placeholder="Personal ID"
+                            label="Personal ID"
+                            status="primary"
+                            onChange={(e) => {
+                                setKYC(e.target.value);
+                            }}
+                        />
+                        </Grid>
+                        <Grid>
+                            <Button
+                                bordered
+                                color="primary"
+                                auto
+                                onPress={handleKYC}
+                            >
+                                Search by KYC
+                            </Button>
+                        </Grid>
+                    </Grid.Container>
                 </Collapse>
             </Collapse.Group>
             <Modal
@@ -126,7 +207,7 @@ function SearchPage() {
           </Text>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto onClick={() => setVisible(false)}>
+          <Button auto onPress={() => setVisible(false)}>
             Ok
           </Button>
         </Modal.Footer>
