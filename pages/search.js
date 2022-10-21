@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Collapse, Text, Input, Grid, Button } from "@nextui-org/react";
+import { Collapse, Text, Input, Grid, Button, Modal, useModal} from "@nextui-org/react";
 
 function SearchPage() {
     const [email, setEmail] = React.useState();
@@ -15,12 +15,20 @@ function SearchPage() {
         console.log(event.target.value);
     };
 
+    const handler = () => setVisible(true);
+
+    const closeHandler = () => {
+        setVisible(false);
+    };
+
+    const { setVisible, bindings } = useModal();
+
 	async function handleEmail () {
     try {
       const res = await fetch(`http://localhost:8080/email_verification?mail=svalles@itba.edu.ar`);
       const data = await res.json();
 	  setEmailResult(data);
-	  console.log(data);
+	  handler()
     } catch (err) {
       console.log(err);
     }
@@ -101,7 +109,30 @@ function SearchPage() {
                     />
                 </Collapse>
             </Collapse.Group>
+            <Modal
+        scroll
+        width="600px"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        {...bindings}
+      >
+        <Modal.Header>
+          <Text id="modal-title" h2 color="primary">
+            Email Result
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Text id="modal-description">
+          </Text>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button auto onClick={() => setVisible(false)}>
+            Ok
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
+        
     );
 }
 
