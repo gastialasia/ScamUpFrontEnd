@@ -4,7 +4,7 @@ class Api {
 //   static token;
 
   static get baseUrl() {
-    return "http://localhost:8080";
+    return "http://scam-up.herokuapp.com/";
   }
 
   static get timeout() {
