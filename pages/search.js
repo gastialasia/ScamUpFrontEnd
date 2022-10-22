@@ -105,6 +105,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleEmail}
+                                css={{ width: 204 }}
                             >
                                 Search by email
                             </Button>
@@ -156,6 +157,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleSwift}
+                                css={{ width: 204 }}
                             >
                                 Search by swift code
                             </Button>
@@ -183,6 +185,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleKYC}
+                                css={{ width: 204 }}
                             >
                                 Search by KYC
                             </Button>
