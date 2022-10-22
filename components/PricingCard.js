@@ -1,9 +1,10 @@
-import { Card, Grid, Link, Text } from "@nextui-org/react";
+import { width } from "@mui/system";
+import { Card, Grid, Link, Text, Badge } from "@nextui-org/react";
 
 export default function PrincingCard( {planName, pricePerMonth, features, active }) {
     return (
         <div>
-        <Card css={{ p: "$6", mw: "400px" }}>
+        <Card css={{ p: "$6", height: "300px", width: "400px" }}>
       <Card.Header>
         <Grid.Container css={{ pl: "$6" }}>
           <Grid xs={12}>
@@ -28,13 +29,11 @@ export default function PrincingCard( {planName, pricePerMonth, features, active
         </Text>
       </Card.Body>
       <Card.Footer>
-        <Link 
-          icon
-          color="primary"
-          target="_blank"
+        <Text
+          style={ active? { color: 'black' } : {color: 'grey'} }
         >
-          Select plan
-        </Link>
+          {active? "Current plan": "Coming soon"}
+        </Text>
       </Card.Footer>
     </Card>
         </div>
