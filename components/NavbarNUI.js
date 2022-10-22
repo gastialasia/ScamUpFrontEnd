@@ -33,50 +33,48 @@ export default function NavbarNUI() {
     //End of log in
 
     return (
-        <div>
-            <Navbar isBordered variant="sticky">
-                <Button
-                    light
-                    color="primary"
-                    auto
-                    onClick={goToHome}
-                    ripple={false}
-                >
-                    <Navbar.Brand>
-                        <AcmeLogo />
-                        <Text b color="inherit" hideIn="xs">
-                            ScamUp
-                        </Text>
-                    </Navbar.Brand>
-                </Button>
-                <Navbar.Content
-                    activeColor={"primary"}
-                    hideIn="xs"
-                    variant={"highlight"}
-                >
-                    <NextLink href="/pricing">
-                        <Navbar.Link>Pricing</Navbar.Link>
-                    </NextLink>
-                    <NextLink href="/search">
-                        <Navbar.Link>Search</Navbar.Link>
-                    </NextLink>
-                    <NextLink href="/about">
-                        <Navbar.Link>About us</Navbar.Link>
-                    </NextLink>
-                </Navbar.Content>
-                <Navbar.Content>
+        <Navbar isBordered variant="sticky">
+            <Button
+                light
+                color="primary"
+                auto
+                onClick={goToHome}
+                ripple={false}
+            >
+                <Navbar.Brand>
+                    <AcmeLogo />
+                    <Text b color="inherit" hideIn="xs">
+                        ScamUp
+                    </Text>
+                </Navbar.Brand>
+            </Button>
+            <Navbar.Content
+                activeColor={"primary"}
+                hideIn="xs"
+                variant={"highlight"}
+            >
+                <NextLink href="/pricing">
+                    <Navbar.Link>Pricing</Navbar.Link>
+                </NextLink>
+                <NextLink href="/search">
+                    <Navbar.Link>Search</Navbar.Link>
+                </NextLink>
+                <NextLink href="/about">
+                    <Navbar.Link>About us</Navbar.Link>
+                </NextLink>
+            </Navbar.Content>
+            <Navbar.Content>
+            <Navbar.Item>
+                    <Button auto light as={Link} color={"primary"} onClick={handler}>
+                        Log in
+                    </Button>
+                </Navbar.Item>
                 <Navbar.Item>
-                        <Button auto light as={Link} color={"primary"} onClick={handler}>
-                            Log in
-                        </Button>
-                    </Navbar.Item>
-                    <Navbar.Item>
-                        <Button auto flat as={Link} color={"primary"}>
-                            Sign Up
-                        </Button>
-                    </Navbar.Item>
-                </Navbar.Content>
-            </Navbar>
+                    <Button auto flat as={Link} color={"primary"}>
+                        Sign Up
+                    </Button>
+                </Navbar.Item>
+            </Navbar.Content>
 
             <Modal
                 closeButton
@@ -87,10 +85,7 @@ export default function NavbarNUI() {
             >
                 <Modal.Header>
                     <Text id="modal-title" size={18}>
-                        Welcome to
-                        <Text b size={18}>
-                            ScamUp
-                        </Text>
+                        Welcome to <b>ScamUp</b>
                     </Text>
                 </Modal.Header>
                 <Modal.Body>
@@ -129,6 +124,6 @@ export default function NavbarNUI() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </Navbar>
     );
 }
