@@ -5,6 +5,7 @@ import {
     Link,
     Modal,
     Input,
+    Image,
     Row,
     Checkbox,
 } from "@nextui-org/react";
@@ -40,12 +41,22 @@ export default function NavbarNUI() {
                 auto
                 onClick={goToHome}
                 ripple={false}
+                css={{ px: 0 }}
             >
                 <Navbar.Brand>
-                    <AcmeLogo />
-                    <Text b color="inherit" hideIn="xs">
-                        ScamUp
-                    </Text>
+                    <Image 
+                    width={40}  
+                    src="/assets/icon.png"
+                    alt="Scam Up Icon"
+                    objectFit="cover"
+                    css={{ pr: 3 }}
+                    />
+                    <Image 
+                    width={75}  
+                    src="/assets/logo.png"
+                    alt="Scam Up Logo"
+                    objectFit="cover"
+                    />
                 </Navbar.Brand>
             </Button>
             <Navbar.Content
@@ -65,7 +76,7 @@ export default function NavbarNUI() {
             </Navbar.Content>
             <Navbar.Content>
             <Navbar.Item>
-                    <Button auto light as={Link} color={"primary"} onClick={handler}>
+                    <Button auto light as={Link} color={"primary"} onClick={handler} css={{ px: 0 }}>
                         Log in
                     </Button>
                 </Navbar.Item>
