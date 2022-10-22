@@ -4,7 +4,7 @@ import { Card, Grid, Link, Text, Badge } from "@nextui-org/react";
 export default function PrincingCard( {planName, pricePerMonth, features, active }) {
     return (
         <div>
-        <Card css={{ p: "$6", height: "300px", width: "400px" }}>
+        <Card isHoverable css={{ p: "$6", height: "300px", width: "400px" }}>
       <Card.Header>
         <Grid.Container css={{ pl: "$6" }}>
           <Grid xs={12}>
