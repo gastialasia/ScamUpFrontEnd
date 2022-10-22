@@ -4,6 +4,7 @@ import styles from "../styles/Landing.module.css";
 import { Grid } from "@nextui-org/react";
 import { Image } from '@nextui-org/react'
 import { Spacer } from '@nextui-org/react';
+import { Text } from "@nextui-org/react";
 
 function LandingPage() {
 
@@ -14,16 +15,15 @@ function LandingPage() {
     }
 
     return (
-        <div className={styles.landing}>
+        <div style={{ padding: 15 }}>
             <Grid.Container justify="center" direction="column" alignContent="center">
                 <h2>Welcome to Scam Up!</h2>
                 <h3>Your safe place on the Internet</h3>
             </Grid.Container>
-            
-            <Grid.Container gap={2} justify="space-around">
+            <Grid.Container gap={2} justify="space-around" css={{ mt: 15 }}>
                 <Spacer />
                 <Grid xs={4}>
-                    <p>
+                    <Text size={20}>
                         Scams can happen in a myriad of ways- via phishing emails,
                         social media, SMS messages on your mobile phone, fake tech
                         support phone calls, scareware and more. There are also new
@@ -31,17 +31,17 @@ function LandingPage() {
                         <br />
                         Our main goal is to decrease scam rates all around the world
                         gathering different tools which are currently available but difficult to use.
-                    </p>
+                    </Text>
                  </Grid>
                  <Grid xs={4}>
                     <Image src="/assets/scam-img.png"></Image>
                  </Grid>
                  <Spacer />
             </Grid.Container>
+            <Grid.Container justify="center">
+                <Button onClick={handleEvent} size="lg" css={{ mt: 15 }}>Search for scams</Button>
+            </Grid.Container>
             
-            <div className={styles.centerBox}>
-                <Button onClick={handleEvent} size="lg">Search for scams</Button>
-            </div>
         </div>
     );
 }
