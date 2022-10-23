@@ -32,7 +32,7 @@ function SearchPage() {
         setEmailResult(data);
         handler()
         } catch (err) {
-        console.log(err);
+        console.log('Error en mail');
         }
 	};
 
@@ -45,7 +45,7 @@ function SearchPage() {
           console.log(data);
           handler()
         } catch (err) {
-          console.log(err);
+          console.log('Error en phone number');
         }
         setLoading(false);
     };
@@ -87,14 +87,14 @@ function SearchPage() {
                 </p>
             </Grid.Container>
 
-            <Collapse.Group accordion={false} bordered css={{ margin: 50 }}>
-                <Collapse title="Mail" expanded>
+            <Collapse.Group accordion={false} bordered css={{ margin: 50 }} >
+                <Collapse title="Email">
                     <Text>Enter the email of the person below</Text>
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                                placeholder="email"
-                                label="email"
+                                placeholder="example@email.com"
+                                label="Email"
                                 status="primary"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -113,14 +113,14 @@ function SearchPage() {
                     </Grid.Container>
                 </Collapse>
 
-                <Collapse title="Phone number" expanded>
+                <Collapse title="Phone number">
                     {/* {loading && <Progress indeterminated value={25} color="primary" status="primary"/>} */}
-                    <Text>Enter the phone number of the person below</Text>
+                    <Text>Enter the phone number of the person below (with country code and zone code)</Text>
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="phone"
-                            label="phone"
+                            placeholder="Phone"
+                            label="+541162238475"
                             status="primary"
                             onChange={(e) => setPhone(e.target.value)}
                         />
@@ -139,14 +139,14 @@ function SearchPage() {
                     </Grid.Container>
                 </Collapse>
 
-                <Collapse title="Swift Code" expanded>
+                <Collapse title="Swift Code">
                     <Text>Enter the swift code (international banking code) of the
                         person below</Text>
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="swift code"
-                            label="swift code"
+                            placeholder="Swift code"
+                            label="GABAARBAXXX"
                             status="primary"
                             onChange={(e) => setCode(e.target.value)}
                         />
@@ -159,13 +159,13 @@ function SearchPage() {
                                 onPress={handleSwift}
                                 css={{ width: 204 }}
                             >
-                                Search by swift code
+                                Search by Swift code
                             </Button>
                         </Grid>
                     </Grid.Container>
                 </Collapse>
 
-                <Collapse title="Personal ID (KYC)" expanded>
+                <Collapse title="Personal ID (KYC)" disabled>
                     <Text>Enter submit the personal ID to do an exhaustive KYC
                         analysis of the person you think is a scammer</Text>
                     <Grid.Container gap={2} justify="space-between">
