@@ -17,6 +17,25 @@ function SearchPage() {
     //Variables for conditional rendering
     const [loading, setLoading] = React.useState(false);
 
+    //Email validation
+    const validateEmail = () => {
+        return email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+    };
+    
+        const helper = React.useMemo(() => {
+        if (!email)
+        return {
+            text: "",
+            color: "",
+        };
+
+        const isValid = validateEmail(email);
+        return {
+          text: isValid ? "Correct email" : "Enter a valid email",
+          color: isValid ? "success" : "error",
+        };
+      }, [email]);
+
     const handler = () => setVisible(true);
 
     const closeHandler = () => {
@@ -88,14 +107,18 @@ function SearchPage() {
             </Grid.Container>
 
             <Collapse.Group accordion={false} bordered css={{ margin: 50 }} >
-                <Collapse title="Email">
+                <Collapse title="Email" expanded>
                     <Text>Enter the email of the person below</Text>
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
                                 placeholder="example@email.com"
                                 label="Email"
-                                status="primary"
+                                status={helper.color}
+                                color={helper.color}
+                                helperColor={helper.color}
+                                helperText={helper.text}
+                                type="email"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
@@ -113,7 +136,7 @@ function SearchPage() {
                     </Grid.Container>
                 </Collapse>
 
-                <Collapse title="Phone number">
+                <Collapse title="Phone number" expanded>
                     {/* {loading && <Progress indeterminated value={25} color="primary" status="primary"/>} */}
                     <Text>Enter the phone number of the person below (with country code and zone code)</Text>
                     <Grid.Container gap={2} justify="space-between">
@@ -139,14 +162,14 @@ function SearchPage() {
                     </Grid.Container>
                 </Collapse>
 
-                <Collapse title="Swift Code">
+                <Collapse title="Swift Code" expanded>
                     <Text>Enter the swift code (international banking code) of the
                         person below</Text>
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="Swift code"
-                            label="GABAARBAXXX"
+                            placeholder="GABAARBAXXX"
+                            label="Swift code"
                             status="primary"
                             onChange={(e) => setCode(e.target.value)}
                         />
