@@ -119,8 +119,8 @@ function SearchPage() {
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="Phone"
-                            label="+541162238475"
+                            label="Phone"
+                            placeholder="+541162238475"
                             status="primary"
                             onChange={(e) => setPhone(e.target.value)}
                         />
