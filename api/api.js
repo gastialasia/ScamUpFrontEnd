@@ -29,7 +29,7 @@ class Api {
       if (!init.headers)
         init.headers = {};
 
-      init.headers['Authorization'] = `bearer ${Api.token}`;
+      // init.headers['Authorization'] = `bearer ${Api.token}`;
     }
 
     controller = controller || new AbortController();
@@ -86,12 +86,12 @@ class Api {
   }
 
   static async login(user) {
-    const url = `${Api.baseUrl}/api/v1/auth/login`
-    return await Api.get(url);
+    const url = `${Api.baseUrl}/auth/login`
+    return await Api.get(url, user);
   }
 
   static async createUser(user) {
-    const url = `${Api.baseUrl}/api/v1/users`
+    const url = `${Api.baseUrl}/users`
     return await Api.post(url, user);
   }
 
@@ -114,6 +114,6 @@ class Api {
 class User {
   constructor(email, pass) {
     this.email = email;
-    this.pass = pass;
+    this.password = pass;
 }
 }

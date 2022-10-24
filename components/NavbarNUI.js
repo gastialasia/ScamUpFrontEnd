@@ -14,6 +14,7 @@ import { Mail } from "./Mail";
 import { Password } from "./Password";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { Api, User } from "../api/api";
 
 export default function NavbarNUI() {
 
@@ -33,8 +34,9 @@ export default function NavbarNUI() {
     const [email, setEmail] = React.useState();
     const [pass, setPass] = React.useState();
 
-    function SignUp() {
+    async function SignUp () {
         console.log(email, pass);
+        const res = await Api.createUser(new User(email, pass));
     }
 
     const closeHandler = () => {
