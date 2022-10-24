@@ -1,8 +1,12 @@
-export { Api }
+export { Api, User }
 
 class Api {
 
-  static token = ''
+  static token = null;
+
+  static isLoggedIn() {
+    return token !== null;
+  }
 
   static get baseUrl() {
     return "https://scam-up.herokuapp.com/api/v1";
@@ -12,14 +16,88 @@ class Api {
     return 60 * 1000;
   }
 
-  static async myFetch (url, controller) {
-      const response = await fetch(url)
-      return response;
+  static async MyFetch (url, controller) {
+    if(!this.isLoggedIn()){
+      throw "No user is logged in"
+    }
+    const response = await fetch(url)
+    return response;
+  }
+
+  static async fetch(url, init = {}, controller) {
+    if (Api.token) {
+      if (!init.headers)
+        init.headers = {};
+
+      init.headers['Authorization'] = `bearer ${Api.token}`;
+    }
+
+    controller = controller || new AbortController();
+    init.signal = controller.signal;
+    const timer = setTimeout(() => controller.abort(), Api.timeout);
+
+    try {
+      const response = await fetch(url, init);
+      const text = await response.text();
+      const result = text ? (JSON).parse(text) : {};
+      if (result.code)
+        throw result;
+      return result;
+    } catch (error) {
+      if (error.code)
+        throw error;
+      if (error.name === "AbortError")
+        throw { "code": 98, "description": error.message.toLowerCase() };
+      else if (error.name === "TypeError")
+        throw { "code": 99, "description": error.message.toLowerCase() };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  static async get(url, data, controller) {
+    return await Api.fetch(url, data, controller);
+  }
+
+  static async post(url, data, controller) {
+    return await Api.fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    }, controller);
+  }
+
+  static async put(url, data, controller) {
+    return await Api.fetch(url,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    }, controller);
+  }
+
+  static async delete(url, controller) {
+    return await Api.fetch(url, {
+      method: "DELETE",
+    }, controller);
+  }
+
+  static async login(user) {
+    const url = `${Api.baseUrl}/api/v1/auth/login`
+    return await Api.get(url);
+  }
+
+  static async createUser(user) {
+    const url = `${Api.baseUrl}/api/v1/users`
+    return await Api.post(url, user);
   }
 
   static async getEmailData (mail) {
     const url = `${Api.baseUrl}/email_verification?mail=${mail}`
-    return await Api.myFetch(url)
+    return await Api.get(url)
   }
 
   static async getPhoneData (number) {
@@ -31,65 +109,11 @@ class Api {
     const url = `${Api.baseUrl}/swift_verification?swift=+${code}`;
     return await Api.myFetch(url)
   }
+}
 
-
-//   static async fetch(url, secure, init = {}, controller) {
-//     if (secure && Api.token) {
-//       if (!init.headers)
-//         init.headers = {};
-
-//       init.headers['Authorization'] = `bearer ${Api.token}`;
-//     }
-
-//     controller = controller || new AbortController();
-//     init.signal = controller.signal;
-//     const timer = setTimeout(() => controller.abort(), Api.timeout);
-
-//     try {
-//       const response = await fetch(url, init);
-//       const text = await response.text();
-//       const result = text ? (JSON).parse(text) : {};
-//       if (result.code)
-//         throw result;
-//       return result;
-//     } catch (error) {
-//       if (error.code)
-//         throw error;
-//       if (error.name === "AbortError")
-//         throw { "code": 98, "description": error.message.toLowerCase() };
-//       else if (error.name === "TypeError")
-//         throw { "code": 99, "description": error.message.toLowerCase() };
-//     } finally {
-//       clearTimeout(timer);
-//     }
-//   }
-//   static async get(url, secure, controller) {
-//     return await Api.fetch(url, secure, {}, controller);
-//   }
-
-//   static async post(url, secure, data, controller) {
-//     return await Api.fetch(url, secure, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json; charset=utf-8"
-//       },
-//       body: JSON.stringify(data)
-//     }, controller);
-//   }
-
-//   static async put(url, secure, data, controller) {
-//     return await Api.fetch(url, secure,{
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json; charset=utf-8"
-//       },
-//       body: JSON.stringify(data)
-//     }, controller);
-//   }
-
-//   static async delete(url, secure, controller) {
-//     return await Api.fetch(url, secure, {
-//       method: "DELETE",
-//     }, controller);
-//   }
+class User {
+  constructor(email, pass) {
+    this.email = email;
+    this.pass = pass;
+}
 }
