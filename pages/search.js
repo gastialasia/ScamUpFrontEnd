@@ -98,7 +98,7 @@ function SearchPage() {
     async function handlePhone () {
         try {
           setLoading(true);
-          const res = await fetch(`http://localhost:8080/phone_verification?phone=+${phone}`);
+          const res = Api.getPhoneData(phone);
           const data = await res.json();
           setPhoneResult(data);
           console.log(data);
@@ -111,7 +111,7 @@ function SearchPage() {
 
     async function handleSwift () {
         try {
-            const res = await fetch(`http://localhost:8080/swift_verification?swift=${swift}`);
+            const res = Api.getSwiftData(swift);
             const data = await res.json();
             setSwiftResult(data);
             handler()

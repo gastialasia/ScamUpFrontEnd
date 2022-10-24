@@ -1,10 +1,11 @@
 export { Api }
 
 class Api {
-//   static token;
+
+  static token = ''
 
   static get baseUrl() {
-    return "http://localhost:8080";
+    return "https://scam-up.herokuapp.com/api/v1";
   }
 
   static get timeout() {
@@ -12,17 +13,17 @@ class Api {
   }
 
   static async myFetch (url, controller) {
-      const response = await fetch(url);
+      const response = await fetch(url)
       return response;
   }
 
   static async getEmailData (mail) {
-    const url = `${Api.baseUrl}/email_verification?mail=${mail}`;
+    const url = `${Api.baseUrl}/email_verification?mail=${mail}`
     return await Api.myFetch(url)
   }
 
   static async getPhoneData (number) {
-    const url = `${Api.baseUrl}/phone_verification?phone=+${number}`;
+    const url = `${Api.baseUrl}/phone_verification?phone=+${number}`
     return await Api.myFetch(url)
   }
 
