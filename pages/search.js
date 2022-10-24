@@ -1,17 +1,18 @@
 import * as React from "react";
 import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading } from "@nextui-org/react";
+import { Api } from "../api/api";
 
 function SearchPage() {
     //Variables for request
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
-    const [code, setCode] = React.useState();
+    const [swift, setSwift] = React.useState();
     const [KYC, setKYC] = React.useState();
 
     //Variables for managing result
 	const [emailResult, setEmailResult] = React.useState();
     const [phoneResult, setPhoneResult] = React.useState();
-    const [codeResult, setCodeResult] = React.useState();
+    const [swiftResult, setSwiftResult] = React.useState();
     const [KYCResult, setKYCResult] = React.useState();
 
     //Variables for conditional rendering
@@ -22,19 +23,58 @@ function SearchPage() {
         return email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
     };
     
-        const helper = React.useMemo(() => {
+    const emailHelper = React.useMemo(() => {
         if (!email)
         return {
             text: "",
             color: "",
         };
-
-        const isValid = validateEmail(email);
+        const isEmailValid = validateEmail(email);
         return {
-          text: isValid ? "Correct email" : "Enter a valid email",
-          color: isValid ? "success" : "error",
+          text: isEmailValid ? "Correct email" : "Enter a valid email",
+          color: isEmailValid ? "success" : "error",
         };
-      }, [email]);
+      }, [email]
+    );
+
+    //Phone validation
+    const validatePhone = () => {
+        return phone.match(/^\+(?:[0-9]●?){6,14}[0-9]$/i);
+    };
+    
+    const phoneHelper = React.useMemo(() => {
+        if (!phone)
+        return {
+            text: "",
+            color: "",
+        };
+        const isValidPhone = validatePhone(phone);
+        return {
+          text: isValidPhone ? "Correct phone" : "Enter a valid phone number",
+          color: isValidPhone ? "success" : "error",
+        };
+      }, [phone]
+    );
+
+  //Swift validation
+    const validateSwift = () => {
+        return swift.match(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/i);
+    };
+    
+    const swiftHelper = React.useMemo(() => {
+        if (!swift)
+        return {
+            text: "",
+            color: "",
+        };
+        const isValidSwift = validateSwift(swift);
+        return {
+          text: isValidSwift ? "Correct Swift" : "Enter a valid Swift code",
+          color: isValidSwift ? "success" : "error",
+        };
+      }, [swift]
+    );
+      
 
     const handler = () => setVisible(true);
 
@@ -46,7 +86,7 @@ function SearchPage() {
 
 	async function handleEmail () {
         try {
-        const res = await fetch(`http://localhost:8080/email_verification?mail=${email}`);
+        const res =  await Api.getEmailData(email)
         const data = await res.json();
         setEmailResult(data);
         handler()
@@ -71,9 +111,9 @@ function SearchPage() {
 
     async function handleSwift () {
         try {
-            const res = await fetch(`http://localhost:8080/swift_verification?swift=${code}`);
+            const res = await fetch(`http://localhost:8080/swift_verification?swift=${swift}`);
             const data = await res.json();
-            setCodeResult(data);
+            setSwiftResult(data);
             handler()
         } catch (err) {
             console.log(err);
@@ -114,10 +154,10 @@ function SearchPage() {
                             <Input
                                 placeholder="example@email.com"
                                 label="Email"
-                                status={helper.color}
-                                color={helper.color}
-                                helperColor={helper.color}
-                                helperText={helper.text}
+                                status={emailHelper.color}
+                                color={emailHelper.color}
+                                helperColor={emailHelper.color}
+                                helperText={emailHelper.text}
                                 type="email"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -144,7 +184,10 @@ function SearchPage() {
                             <Input
                             label="Phone"
                             placeholder="+541162238475"
-                            status="primary"
+                            status={phoneHelper.color}
+                            color={phoneHelper.color}
+                            helperColor={phoneHelper.color}
+                            helperText={phoneHelper.text}
                             onChange={(e) => setPhone(e.target.value)}
                         />
                         </Grid>
@@ -170,8 +213,11 @@ function SearchPage() {
                             <Input
                             placeholder="GABAARBAXXX"
                             label="Swift code"
-                            status="primary"
-                            onChange={(e) => setCode(e.target.value)}
+                            status={swiftHelper.color}
+                            color={swiftHelper.color}
+                            helperColor={swiftHelper.color}
+                            helperText={swiftHelper.text}
+                            onChange={(e) => setSwift(e.target.value)}
                         />
                         </Grid>
                         <Grid>
