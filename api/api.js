@@ -11,24 +11,24 @@ class Api {
     return 60 * 1000;
   }
 
-  static async fetch (url, controller) {
+  static async myFetch (url, controller) {
       const response = await fetch(url);
       return response;
   }
 
   static async getEmailData (mail) {
     const url = `${Api.baseUrl}/email_verification?mail=${mail}`;
-    return await Api.fetch(url)
+    return await Api.myFetch(url)
   }
 
   static async getPhoneData (number) {
     const url = `${Api.baseUrl}/phone_verification?phone=+${number}`;
-    return await Api.fetch(url)
+    return await Api.myFetch(url)
   }
 
   static async getSwiftData (code) {
     const url = `${Api.baseUrl}/swift_verification?swift=+${code}`;
-    return await Api.fetch(url)
+    return await Api.myFetch(url)
   }
 
 
