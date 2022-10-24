@@ -25,10 +25,19 @@ export default function NavbarNUI() {
     }
 
     //Log in
+    const [emailLogIn, setEmailLogIn] = React.useState();
+    const [passLogIn, setPassLogIn] = React.useState();
+
     const [visible, setVisible] = React.useState(false);
     const [visibleSignUp, setVisibleSignUp] = React.useState(false);
     const handler = () => setVisible(true);
     const handlerSignUp = () => setVisibleSignUp(true);
+
+    async function LogIn () {
+        const newUser = new User(emailLogIn, passLogIn);
+        const res = await Api.login(newUser);
+        console.log(res);
+    }
 
     //Sign up
     const [email, setEmail] = React.useState();
@@ -122,7 +131,8 @@ export default function NavbarNUI() {
                         color="primary"
                         size="lg"
                         placeholder="Email"
-                        contentLeft={<Mail fill="currentColor" />}
+                        contentLeft={<Mail fill="currentColor"/>}
+                        onChange={(e) => setEmailLogIn(e.target.value)}
                     />
                     <Input.Password
                         clearable
@@ -132,7 +142,8 @@ export default function NavbarNUI() {
                         color="primary"
                         size="lg"
                         placeholder="Password"
-                        contentLeft={<Password fill="currentColor" />}
+                        contentLeft={<Password fill="currentColor"/>}
+                        onChange={(e) => setPassLogIn(e.target.value)}
                     />
                     <Row justify="space-between">
                         <Checkbox>
@@ -145,8 +156,8 @@ export default function NavbarNUI() {
                     <Button auto flat color="error" onPress={closeHandler}>
                         Close
                     </Button>
-                    <Button auto onPress={closeHandler}>
-                        Sign in
+                    <Button auto onPress={ () => { LogIn(); handler(); }} >
+                        Log in
                     </Button>
                 </Modal.Footer>
             </Modal>

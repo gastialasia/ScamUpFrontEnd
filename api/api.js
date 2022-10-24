@@ -55,8 +55,8 @@ class Api {
     }
   }
 
-  static async get(url, data, controller) {
-    return await Api.fetch(url, data, controller);
+  static async get(url, controller) {
+    return await Api.fetch(url, controller);
   }
 
   static async post(url, data, controller) {
@@ -87,7 +87,8 @@ class Api {
 
   static async login(user) {
     const url = `${Api.baseUrl}/auth/login`
-    return await Api.get(url, user);
+    const res = await Api.post(url, user);
+    Api.token = res.token;
   }
 
   static async createUser(user) {
