@@ -3,13 +3,18 @@ export { Api, User }
 class Api {
 
   static token = null;
+  static username = null;
 
   static setToken(token) {
     this.token = token;
   }
 
+  static setUsername(username) {
+    this.username = username;
+  }
+
   static isLoggedIn() {
-    return token !== null;
+    return token !== null && username !== null;
   }
 
   static get baseUrl() {
@@ -94,9 +99,10 @@ class Api {
       const url = `${Api.baseUrl}/auth/login`
       const res = await Api.post(url, user);
       Api.token = res.token;
+      const username = user.email.substring(0, user.email.indexOf('@'))
+      Api.username = username
       window.localStorage.setItem("x-token", res.token);
-      console.log(user.email.substring(0, user.email.indexOf('@')));
-      window.localStorage.setItem("username", user.email.substring(0, user.email.indexOf('@')));
+      window.localStorage.setItem("username", username );
     } catch (e) {
       console.log(e);
     }

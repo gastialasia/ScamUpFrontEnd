@@ -8,6 +8,7 @@ import {
     Image,
     Row,
     Checkbox,
+    User
 } from "@nextui-org/react";
 import * as React from "react";
 import { Mail } from "./Mail";
@@ -59,7 +60,7 @@ export default function NavbarNUI() {
 
     useEffect(() => {
         Api.setToken(localStorage.getItem("x-token"));
-        console.log("teteee");
+        Api.setUsername(localStorage.getItem("username"));
     });
 
     return (
@@ -104,7 +105,7 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
-            <Navbar.Item>
+                <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
                         Log in
                     </Button>
