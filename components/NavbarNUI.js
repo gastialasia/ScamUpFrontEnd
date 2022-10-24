@@ -7,8 +7,7 @@ import {
     Input,
     Image,
     Row,
-    Checkbox,
-    User
+    Checkbox
 } from "@nextui-org/react";
 import * as React from "react";
 import { Mail } from "./Mail";
@@ -105,6 +104,8 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
+                { Api.isLoggedIn ? <div>
+                    <Navbar.Content>
                 <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
                         Log in
@@ -115,6 +116,13 @@ export default function NavbarNUI() {
                         Sign Up
                     </Button>
                 </Navbar.Item>
+                </Navbar.Content>
+                </div> : <div>
+                <User
+                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    name="Ariana Wattson"
+                />
+                </div> }
             </Navbar.Content>
 
             <Modal
