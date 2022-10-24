@@ -12,11 +12,11 @@ import {
 import * as React from "react";
 import { Mail } from "./Mail";
 import { Password } from "./Password";
-import { AcmeLogo } from "./acmeLogo";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 export default function NavbarNUI() {
+
     const router = useRouter();
 
     function goToHome() {
@@ -25,11 +25,24 @@ export default function NavbarNUI() {
 
     //Log in
     const [visible, setVisible] = React.useState(false);
+    const [visibleSignUp, setVisibleSignUp] = React.useState(false);
     const handler = () => setVisible(true);
+    const handlerSignUp = () => setVisibleSignUp(true);
+
+    //Sign up
+    const [email, setEmail] = React.useState();
+    const [pass, setPass] = React.useState();
+
+    function SignUp() {
+        console.log(email, pass);
+    }
 
     const closeHandler = () => {
         setVisible(false);
-        console.log("closed");
+    };
+
+    const closeHandlerSignUp = () => {
+        setVisibleSignUp(false);
     };
     //End of log in
 
@@ -39,7 +52,7 @@ export default function NavbarNUI() {
                 light
                 color="primary"
                 auto
-                onClick={goToHome}
+                onPress={goToHome}
                 ripple={false}
                 css={{ px: 0 }}
             >
@@ -76,12 +89,12 @@ export default function NavbarNUI() {
             </Navbar.Content>
             <Navbar.Content>
             <Navbar.Item>
-                    <Button auto light as={Link} color={"primary"} onClick={handler} css={{ px: 0 }}>
+                    <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
                         Log in
                     </Button>
                 </Navbar.Item>
                 <Navbar.Item>
-                    <Button auto flat as={Link} color={"primary"}>
+                    <Button auto flat as={Link} color={"primary"} onPress={handlerSignUp}>
                         Sign Up
                     </Button>
                 </Navbar.Item>
@@ -127,11 +140,58 @@ export default function NavbarNUI() {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button auto flat color="error" onClick={closeHandler}>
+                    <Button auto flat color="error" onPress={closeHandler}>
                         Close
                     </Button>
-                    <Button auto onClick={closeHandler}>
+                    <Button auto onPress={closeHandler}>
                         Sign in
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                closeButton
+                blur
+                aria-labelledby="modal-title"
+                open={visibleSignUp}
+                onClose={closeHandler}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" size={18}>
+                        Sign up to <b>ScamUp</b>
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Input
+                        label="Email"
+                        clearable
+                        bordered
+                        fullWidth
+                        color="primary"
+                        size="lg"
+                        placeholder="Email"
+                        contentLeft={<Mail fill="currentColor" />}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Input.Password
+                        label="Password"
+                        clearable
+                        bordered
+                        fullWidth
+                        type="password"
+                        color="primary"
+                        size="lg"
+                        placeholder="Password"
+                        contentLeft={<Password fill="currentColor" />}
+                        onChange={(e) => setPass(e.target.value)}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto flat color="error" onPress={closeHandlerSignUp}>
+                        Close
+                    </Button>
+                    <Button auto onPress={ () => { SignUp(); closeHandlerSignUp();} } >
+                        Sign up
                     </Button>
                 </Modal.Footer>
             </Modal>

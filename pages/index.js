@@ -1,6 +1,5 @@
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/router";
-import styles from "../styles/Landing.module.css";
 import { Grid } from "@nextui-org/react";
 import { Image } from '@nextui-org/react'
 import { Spacer } from '@nextui-org/react';
@@ -39,7 +38,7 @@ function LandingPage() {
                  <Spacer />
             </Grid.Container>
             <Grid.Container justify="center">
-                <Button onClick={handleEvent} size="lg" css={{ mt: 15 }}>Search for scams</Button>
+                <Button onPress={handleEvent} size="lg" css={{ mt: 15 }}>Search for scams</Button>
             </Grid.Container>
             
         </div>

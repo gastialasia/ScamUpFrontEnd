@@ -1,4 +1,3 @@
-import Navbar from "./Navbar";
 import NavbarNUI from "./NavbarNUI";
 
 export default function Layout({ children }) {
