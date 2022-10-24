@@ -15,6 +15,7 @@ import { Password } from "./Password";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Api, User } from "../api/api";
+import { useEffect } from "react";
 
 export default function NavbarNUI() {
 
@@ -56,6 +57,11 @@ export default function NavbarNUI() {
         setVisibleSignUp(false);
     };
     //End of log in
+
+    useEffect(() => {
+        Api.setToken(localStorage.getItem("x-token"));
+        console.log("teteee");
+    });
 
     return (
         <Navbar isBordered variant="sticky">
@@ -156,7 +162,7 @@ export default function NavbarNUI() {
                     <Button auto flat color="error" onPress={closeHandler}>
                         Close
                     </Button>
-                    <Button auto onPress={ () => { LogIn(); handler(); }} >
+                    <Button auto onPress={ () => { LogIn(); closeHandler(); }} >
                         Log in
                     </Button>
                 </Modal.Footer>

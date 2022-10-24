@@ -4,6 +4,10 @@ class Api {
 
   static token = null;
 
+  static setToken(token) {
+    this.token = token;
+  }
+
   static isLoggedIn() {
     return token !== null;
   }
@@ -29,7 +33,7 @@ class Api {
       if (!init.headers)
         init.headers = {};
 
-      // init.headers['Authorization'] = `bearer ${Api.token}`;
+      init.headers['x-token'] = `${Api.token}`;
     }
 
     controller = controller || new AbortController();
@@ -86,9 +90,14 @@ class Api {
   }
 
   static async login(user) {
-    const url = `${Api.baseUrl}/auth/login`
-    const res = await Api.post(url, user);
-    Api.token = res.token;
+    try{
+      const url = `${Api.baseUrl}/auth/login`
+      const res = await Api.post(url, user);
+      Api.token = res.token;
+      window.localStorage.setItem("x-token", res.token);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   static async createUser(user) {
@@ -102,13 +111,13 @@ class Api {
   }
 
   static async getPhoneData (number) {
-    const url = `${Api.baseUrl}/phone_verification?phone=+${number}`
-    return await Api.myFetch(url)
+    const url = `${Api.baseUrl}/phone_verification?phone=${number}`
+    return await Api.get(url)
   }
 
   static async getSwiftData (code) {
     const url = `${Api.baseUrl}/swift_verification?swift=+${code}`;
-    return await Api.myFetch(url)
+    return await Api.get(url)
   }
 }
 
