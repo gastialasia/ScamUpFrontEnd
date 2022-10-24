@@ -95,6 +95,8 @@ class Api {
       const res = await Api.post(url, user);
       Api.token = res.token;
       window.localStorage.setItem("x-token", res.token);
+      console.log(user.email.substring(0, user.email.indexOf('@')));
+      window.localStorage.setItem("username", user.email.substring(0, user.email.indexOf('@')));
     } catch (e) {
       console.log(e);
     }

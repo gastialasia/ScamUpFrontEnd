@@ -37,7 +37,6 @@ export default function NavbarNUI() {
     async function LogIn () {
         const newUser = new User(emailLogIn, passLogIn);
         const res = await Api.login(newUser);
-        console.log(res);
     }
 
     //Sign up
