@@ -1,4 +1,4 @@
-export { Api, User }
+export { Api, ApiUser }
 
 class Api {
 
@@ -108,6 +108,14 @@ class Api {
     }
   }
 
+  static logout () {
+    console.log("logout")
+    this.token = null;
+    this.username = null;
+    window.localStorage.removeItem("x-token");
+    window.localStorage.removeItem("username");
+}
+
   static async createUser(user) {
     const url = `${Api.baseUrl}/users`
     return await Api.post(url, user);
@@ -129,7 +137,7 @@ class Api {
   }
 }
 
-class User {
+class ApiUser {
   constructor(email, pass) {
     this.email = email;
     this.password = pass;

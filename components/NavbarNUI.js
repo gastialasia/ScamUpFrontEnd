@@ -7,14 +7,16 @@ import {
     Input,
     Image,
     Row,
-    Checkbox
+    Checkbox,
+    User,
+    Dropdown
 } from "@nextui-org/react";
 import * as React from "react";
 import { Mail } from "./Mail";
 import { Password } from "./Password";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { Api, User } from "../api/api";
+import { Api, ApiUser } from "../api/api";
 import { useEffect } from "react";
 
 export default function NavbarNUI() {
@@ -28,6 +30,7 @@ export default function NavbarNUI() {
     //Log in
     const [emailLogIn, setEmailLogIn] = React.useState();
     const [passLogIn, setPassLogIn] = React.useState();
+    const [rememberMe, setRememberMe] = React.useState(false);
 
     const [visible, setVisible] = React.useState(false);
     const [visibleSignUp, setVisibleSignUp] = React.useState(false);
@@ -35,7 +38,7 @@ export default function NavbarNUI() {
     const handlerSignUp = () => setVisibleSignUp(true);
 
     async function LogIn () {
-        const newUser = new User(emailLogIn, passLogIn);
+        const newUser = new ApiUser(emailLogIn, passLogIn);
         const res = await Api.login(newUser);
     }
 
@@ -45,7 +48,7 @@ export default function NavbarNUI() {
 
     async function SignUp () {
         console.log(email, pass);
-        const res = await Api.createUser(new User(email, pass));
+        const res = await Api.createUser(new ApiUser(email, pass));
     }
 
     const closeHandler = () => {
@@ -57,9 +60,12 @@ export default function NavbarNUI() {
     };
     //End of log in
 
+    const [username, setUsername] = React.useState('');
+
     useEffect(() => {
         Api.setToken(localStorage.getItem("x-token"));
         Api.setUsername(localStorage.getItem("username"));
+        setUsername(Api.username);
     });
 
     return (
@@ -104,7 +110,7 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
-                { Api.isLoggedIn ? <div>
+                { Api.isLoggedIn===false ? <div>
                     <Navbar.Content>
                 <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
@@ -118,10 +124,31 @@ export default function NavbarNUI() {
                 </Navbar.Item>
                 </Navbar.Content>
                 </div> : <div>
-                <User
-                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                    name="Ariana Wattson"
-                />
+                <Dropdown placement="bottom-left">
+          <Dropdown.Trigger>
+            <User
+              bordered
+              as="button"
+              size="md"
+              color="primary"
+              name={username}
+              src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
+            />
+          </Dropdown.Trigger>
+          <Dropdown.Menu color="primary" aria-label="User Actions" onAction={(key="logout") => {Api.logout(); setUsername('')}}>
+            <Dropdown.Item key="profile" css={{ height: "$18" }}>
+              <Text b color="inherit" css={{ d: "flex" }}>
+                Signed in as
+              </Text>
+              <Text b color="inherit" css={{ d: "flex" }}>
+              {username}
+              </Text>
+            </Dropdown.Item>
+            <Dropdown.Item key="logout" color="error" withDivider>
+              Log Out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
                 </div> }
             </Navbar.Content>
 
