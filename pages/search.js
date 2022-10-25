@@ -17,7 +17,9 @@ function SearchPage() {
 
     //Variables for conditional rendering
     const [loadingEmail, setLoadingEmail] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [loadingPhone, setLoadingPhone] = React.useState(false);
+    const [loadingSwift, setLoadingSwift] = React.useState(false);
+    const [loadingKYC, setLoadingKYC] = React.useState(false);
 
     //Email validation
     const validateEmail = () => {
@@ -76,26 +78,21 @@ function SearchPage() {
     }, [swift]
     );
 
-
-    const handler = () => setVisible(true);
-    const phoneHandler = () => setPhoneVisible(true);
-    const swiftHandler = () => setSwiftVisible(true);
-
     const closeHandlerEmail = () => {
         setShowEmail(false);
     };
 
-    const closePhoneHandler = () => {
-        setPhoneVisible(false);
+    const closeHandlerPhone = () => {
+        setShowPhone(false);
     };
 
-    const closeSwiftHandler = () => {
-        setSwiftVisible(false);
+    const closeHandlerSwift = () => {
+        setShowSwift(false);
     };
 
     const [showEmail, setShowEmail] = React.useState();
-    const { setPhoneVisible, phoneBindings } = useModal(false);
-    const { setSwiftVisible, swiftBindings } = useModal(false);
+    const [showPhone, setShowPhone] = React.useState();
+    const [showSwift, setShowSwift] = React.useState();
 
     async function handleEmail() {
         try {
@@ -111,27 +108,26 @@ function SearchPage() {
 
     async function handlePhone() {
         try {
-            setLoading(true);
-            const res = Api.getPhoneData(phone);
-            const data = await res.json();
-            setPhoneResult(data);
-            console.log(data);
-            phoneHandler()
+            setLoadingPhone(true);
+            const res = await Api.getPhoneData(phone)
+            setPhoneResult(res);
+            setShowPhone(true);
         } catch (err) {
-            console.log('Error en phone number');
+            console.log('Error en phone');
         }
-        setLoading(false);
+        setLoadingPhone(false);
     };
 
     async function handleSwift() {
         try {
-            const res = Api.getSwiftData(swift);
-            const data = await res.json();
-            setSwiftResult(data);
-            swiftHandler()
+            setLoadingSwift(true);
+            const res = await Api.getSwiftData(swift)
+            setSwiftResult(res);
+            setShowSwift(true);
         } catch (err) {
-            console.log(err);
+            console.log('Error en swift code');
         }
+        setLoadingSwift(false);
     };
 
     async function handleKYC() {
@@ -213,7 +209,7 @@ function SearchPage() {
                                 onPress={handlePhone}
                                 css={{ width: 204 }}
                             >
-                                {loading ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
+                                {loadingPhone ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
                             </Button>
                         </Grid>
                     </Grid.Container>
@@ -242,7 +238,7 @@ function SearchPage() {
                                 onPress={handleSwift}
                                 css={{ width: 204 }}
                             >
-                                Search by Swift code
+                                {loadingSwift ? <Loading color="currentColor" size="sm" /> : 'Search by Swift code'}
                             </Button>
                         </Grid>
                     </Grid.Container>
@@ -324,7 +320,9 @@ function SearchPage() {
                 width="600px"
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
-                {...phoneBindings}
+                open={showPhone}
+                onClose={closeHandlerPhone}
+                
             >
                 <Modal.Header>
                     <Text id="modal-title" h2 color="primary">
@@ -347,7 +345,50 @@ function SearchPage() {
                     </Grid.Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button auto onPress={() => setPhoneVisible(false)}>
+                    <Button auto onPress={() => setShowPhone(false)}>
+                        Ok
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal
+                scroll
+                width="600px"
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                open={showEmail}
+                onClose={closeHandlerEmail}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" h2 color="primary">
+                        Swift Code Result
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Grid.Container direction="column">
+                        <Text id="modal-description">
+                        </Text>
+                        <Text id="modal-title" h4>
+                            {emailResult?.email}
+                        </Text>
+                        <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
+                            {emailResult?.suspicious ? "Suspicious" : "Not Suspicious"}
+                        </Text>
+                        <Text id="modal-title" size={20}>
+                            Reputation: <b>{emailResult?.reputation}</b>
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            Domain reputation: <b>{emailResult?.domain_reputation}</b>
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            {emailResult?.spam ? "This is a spam email" : "This is not a spam email"}
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            {emailResult?.blacklistes ? "This email is blacklisted" : "This email is not blacklisted"}
+                        </Text>
+                    </Grid.Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto onPress={() => setShowEmail(false)}>
                         Ok
                     </Button>
                 </Modal.Footer>
