@@ -71,7 +71,15 @@ export default function NavbarNUI() {
         if(enterEffect){
             Api.setToken(localStorage.getItem("x-token"));
             Api.setUsername(localStorage.getItem("username"));
-            setUserEmail("johndoe");
+            // declare the data fetching function
+            const emailCall = async () => {
+                const data = await Api.getUserEmail();
+                setUserEmail(data.email);
+                setUsername(userEmail.substring(0, userEmail.indexOf('@')));
+            }
+
+            // call the function
+            emailCall();
             setEnterEffect(false);
         }
     });
