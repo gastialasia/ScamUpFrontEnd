@@ -356,7 +356,7 @@ function SearchPage() {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 open={showEmail}
-                onClose={closeHandlerEmail}
+                onClose={closeHandlerSwift}
             >
                 <Modal.Header>
                     <Text id="modal-title" h2 color="primary">
@@ -367,28 +367,16 @@ function SearchPage() {
                     <Grid.Container direction="column">
                         <Text id="modal-description">
                         </Text>
-                        <Text id="modal-title" h4>
-                            {emailResult?.email}
+                        <Text id="modal-title" h3>
+                            {swiftResult?.bank}
                         </Text>
-                        <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
-                            {emailResult?.suspicious ? "Suspicious" : "Not Suspicious"}
-                        </Text>
-                        <Text id="modal-title" size={20}>
-                            Reputation: <b>{emailResult?.reputation}</b>
-                        </Text>
-                        <Text id="modal-title" size={20} >
-                            Domain reputation: <b>{emailResult?.domain_reputation}</b>
-                        </Text>
-                        <Text id="modal-title" size={20} >
-                            {emailResult?.spam ? "This is a spam email" : "This is not a spam email"}
-                        </Text>
-                        <Text id="modal-title" size={20} >
-                            {emailResult?.blacklistes ? "This email is blacklisted" : "This email is not blacklisted"}
+                        <Text id="modal-title" size={30}>
+                            Country: <b>{swiftResult?.country}</b>
                         </Text>
                     </Grid.Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button auto onPress={() => setShowEmail(false)}>
+                    <Button auto onPress={() => setShowSwift(false)}>
                         Ok
                     </Button>
                 </Modal.Footer>
