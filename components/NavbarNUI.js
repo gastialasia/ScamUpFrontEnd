@@ -147,7 +147,7 @@ export default function NavbarNUI() {
               as="button"
               size="md"
               color="primary"
-              name={userEmail}
+              name={userEmail.substring(0, userEmail.indexOf('@'))}
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
           </Dropdown.Trigger>
@@ -157,7 +157,7 @@ export default function NavbarNUI() {
                 Signed in as
               </Text>
               <Text b color="inherit" css={{ d: "flex" }}>
-              {username}
+              {userEmail}
               </Text>
             </Dropdown.Item>
             <Dropdown.Item key="logout" color="error" withDivider>
