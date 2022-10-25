@@ -10,117 +10,131 @@ function SearchPage() {
     const [KYC, setKYC] = React.useState();
 
     //Variables for managing result
-	const [emailResult, setEmailResult] = React.useState();
+    const [emailResult, setEmailResult] = React.useState();
     const [phoneResult, setPhoneResult] = React.useState();
     const [swiftResult, setSwiftResult] = React.useState();
     const [KYCResult, setKYCResult] = React.useState();
 
     //Variables for conditional rendering
+    const [loadingEmail, setLoadingEmail] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
     //Email validation
     const validateEmail = () => {
         return email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
     };
-    
+
     const emailHelper = React.useMemo(() => {
         if (!email)
-        return {
-            text: "",
-            color: "",
-        };
+            return {
+                text: "",
+                color: "",
+            };
         const isEmailValid = validateEmail(email);
         return {
-          text: isEmailValid ? "Correct email" : "Enter a valid email",
-          color: isEmailValid ? "success" : "error",
+            text: isEmailValid ? "Correct email" : "Enter a valid email",
+            color: isEmailValid ? "success" : "error",
         };
-      }, [email]
+    }, [email]
     );
 
     //Phone validation
     const validatePhone = () => {
         return phone.match(/^\+(?:[0-9]●?){6,14}[0-9]$/i);
     };
-    
+
     const phoneHelper = React.useMemo(() => {
         if (!phone)
-        return {
-            text: "",
-            color: "",
-        };
+            return {
+                text: "",
+                color: "",
+            };
         const isValidPhone = validatePhone(phone);
         return {
-          text: isValidPhone ? "Correct phone" : "Enter a valid phone number",
-          color: isValidPhone ? "success" : "error",
+            text: isValidPhone ? "Correct phone" : "Enter a valid phone number",
+            color: isValidPhone ? "success" : "error",
         };
-      }, [phone]
+    }, [phone]
     );
 
-  //Swift validation
+    //Swift validation
     const validateSwift = () => {
         return swift.match(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/i);
     };
-    
+
     const swiftHelper = React.useMemo(() => {
         if (!swift)
-        return {
-            text: "",
-            color: "",
-        };
+            return {
+                text: "",
+                color: "",
+            };
         const isValidSwift = validateSwift(swift);
         return {
-          text: isValidSwift ? "Correct Swift" : "Enter a valid Swift code",
-          color: isValidSwift ? "success" : "error",
+            text: isValidSwift ? "Correct Swift" : "Enter a valid Swift code",
+            color: isValidSwift ? "success" : "error",
         };
-      }, [swift]
+    }, [swift]
     );
-      
+
 
     const handler = () => setVisible(true);
+    const phoneHandler = () => setPhoneVisible(true);
+    const swiftHandler = () => setSwiftVisible(true);
 
-    const closeHandler = () => {
-        setVisible(false);
+    const closeHandlerEmail = () => {
+        setShowEmail(false);
     };
 
-    const { setVisible, bindings } = useModal();
+    const closePhoneHandler = () => {
+        setPhoneVisible(false);
+    };
 
-	async function handleEmail () {
+    const closeSwiftHandler = () => {
+        setSwiftVisible(false);
+    };
+
+    const [showEmail, setShowEmail] = React.useState();
+    const { setPhoneVisible, phoneBindings } = useModal(false);
+    const { setSwiftVisible, swiftBindings } = useModal(false);
+
+    async function handleEmail() {
         try {
-        const res =  await Api.getEmailData(email)
-        const data = await res.json();
-        setEmailResult(data);
-        handler()
+            setLoadingEmail(true);
+            const res = await Api.getEmailData(email)
+            setEmailResult(res);
+            setShowEmail(true);
         } catch (err) {
-        console.log('Error en mail');
+            console.log('Error en mail');
         }
-	};
+        setLoadingEmail(false);
+    };
 
-    async function handlePhone () {
+    async function handlePhone() {
         try {
-          setLoading(true);
-          const res = Api.getPhoneData(phone);
-          const data = await res.json();
-          setPhoneResult(data);
-          console.log(data);
-          handler()
+            setLoading(true);
+            const res = Api.getPhoneData(phone);
+            const data = await res.json();
+            setPhoneResult(data);
+            console.log(data);
+            phoneHandler()
         } catch (err) {
-          console.log('Error en phone number');
+            console.log('Error en phone number');
         }
         setLoading(false);
     };
 
-    async function handleSwift () {
+    async function handleSwift() {
         try {
             const res = Api.getSwiftData(swift);
             const data = await res.json();
             setSwiftResult(data);
-            handler()
+            swiftHandler()
         } catch (err) {
             console.log(err);
         }
     };
 
-    async function handleKYC () {
+    async function handleKYC() {
         try {
             const res = await fetch(`http://localhost:8080/kyc_verification?kyc=${KYC}`);
             const data = await res.json();
@@ -170,7 +184,7 @@ function SearchPage() {
                                 onPress={handleEmail}
                                 css={{ width: 204 }}
                             >
-                                Search by email
+                                {loadingEmail ? <Loading color="currentColor" size="sm" /> : 'Search by email'}
                             </Button>
                         </Grid>
                     </Grid.Container>
@@ -182,14 +196,14 @@ function SearchPage() {
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            label="Phone"
-                            placeholder="+541162238475"
-                            status={phoneHelper.color}
-                            color={phoneHelper.color}
-                            helperColor={phoneHelper.color}
-                            helperText={phoneHelper.text}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
+                                label="Phone"
+                                placeholder="+541162238475"
+                                status={phoneHelper.color}
+                                color={phoneHelper.color}
+                                helperColor={phoneHelper.color}
+                                helperText={phoneHelper.text}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
                         </Grid>
                         <Grid>
                             <Button
@@ -199,7 +213,7 @@ function SearchPage() {
                                 onPress={handlePhone}
                                 css={{ width: 204 }}
                             >
-                                {loading? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
+                                {loading ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
                             </Button>
                         </Grid>
                     </Grid.Container>
@@ -211,14 +225,14 @@ function SearchPage() {
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="GABAARBAXXX"
-                            label="Swift code"
-                            status={swiftHelper.color}
-                            color={swiftHelper.color}
-                            helperColor={swiftHelper.color}
-                            helperText={swiftHelper.text}
-                            onChange={(e) => setSwift(e.target.value)}
-                        />
+                                placeholder="GABAARBAXXX"
+                                label="Swift code"
+                                status={swiftHelper.color}
+                                color={swiftHelper.color}
+                                helperColor={swiftHelper.color}
+                                helperText={swiftHelper.text}
+                                onChange={(e) => setSwift(e.target.value)}
+                            />
                         </Grid>
                         <Grid>
                             <Button
@@ -240,13 +254,13 @@ function SearchPage() {
                     <Grid.Container gap={2} justify="space-between">
                         <Grid>
                             <Input
-                            placeholder="Personal ID"
-                            label="Personal ID"
-                            status="primary"
-                            onChange={(e) => {
-                                setKYC(e.target.value);
-                            }}
-                        />
+                                placeholder="Personal ID"
+                                label="Personal ID"
+                                status="primary"
+                                onChange={(e) => {
+                                    setKYC(e.target.value);
+                                }}
+                            />
                         </Grid>
                         <Grid>
                             <Button
@@ -263,49 +277,83 @@ function SearchPage() {
                 </Collapse>
             </Collapse.Group>
             <Modal
-        scroll
-        width="600px"
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-        {...bindings}
-      >
-        <Modal.Header>
-          <Text id="modal-title" h2 color="primary">
-            Email Result
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
-            <Grid.Container direction="column">
-          <Text id="modal-description">
-          </Text>
-          <Text id="modal-title" h4>
-            {emailResult?.email}
-          </Text>
-          <Text id="modal-title" h2 style={ emailResult?.suspicious? { color: 'red' } : {color: 'green'} }>
-            {emailResult?.suspicious? "Suspicious": "Not Suspicious"}
-          </Text>
-          <Text id="modal-title" size={20}>
-            Reputation: <b>{emailResult?.reputation}</b>
-          </Text>
-          <Text id="modal-title" size={20} >
-            Domain reputation: <b>{emailResult?.domain_reputation}</b>
-          </Text>
-          <Text id="modal-title" size={20} >
-            {emailResult?.spam? "This is a spam email": "This is not a spam email"}
-          </Text>
-          <Text id="modal-title" size={20} >
-          {emailResult?.blacklistes? "This email is blacklisted": "This email is not blacklisted"}
-          </Text>
-          </Grid.Container>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button auto onPress={() => setVisible(false)}>
-            Ok
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                scroll
+                width="600px"
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                open={showEmail}
+                onClose={closeHandlerEmail}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" h2 color="primary">
+                        Email Result
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Grid.Container direction="column">
+                        <Text id="modal-description">
+                        </Text>
+                        <Text id="modal-title" h4>
+                            {emailResult?.email}
+                        </Text>
+                        <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
+                            {emailResult?.suspicious ? "Suspicious" : "Not Suspicious"}
+                        </Text>
+                        <Text id="modal-title" size={20}>
+                            Reputation: <b>{emailResult?.reputation}</b>
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            Domain reputation: <b>{emailResult?.domain_reputation}</b>
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            {emailResult?.spam ? "This is a spam email" : "This is not a spam email"}
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            {emailResult?.blacklistes ? "This email is blacklisted" : "This email is not blacklisted"}
+                        </Text>
+                    </Grid.Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto onPress={() => setShowEmail(false)}>
+                        Ok
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal
+                scroll
+                width="600px"
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                {...phoneBindings}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" h2 color="primary">
+                        Phone Result
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Grid.Container direction="column">
+                        <Text id="modal-description">
+                        </Text>
+                        <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
+                            {phoneResult?.valid ? "Valid" : "Invalid"}
+                        </Text>
+                        <Text id="modal-title" size={20}>
+                            Country: <b>{phoneResult?.country_name}</b>
+                        </Text>
+                        <Text id="modal-title" size={20} >
+                            Carrier: <b>{phoneResult?.carrier}</b>
+                        </Text>
+                    </Grid.Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto onPress={() => setPhoneVisible(false)}>
+                        Ok
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
-        
+
     );
 }
 

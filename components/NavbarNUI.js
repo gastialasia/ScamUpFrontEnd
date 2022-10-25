@@ -110,7 +110,7 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
-                { Api.isLoggedIn===false ? <div>
+                { true ? <div>
                     <Navbar.Content>
                 <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
