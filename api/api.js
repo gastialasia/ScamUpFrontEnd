@@ -131,8 +131,8 @@ class Api {
     return await Api.get(url)
   }
 
-  static async getSwiftData (code) {
-    const url = `${Api.baseUrl}/swift_verification?swift=${code}`;
+  static async getSwiftData (swift) {
+    const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
     return await Api.get(url)
   }
 }
