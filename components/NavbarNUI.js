@@ -30,6 +30,7 @@ export default function NavbarNUI() {
     //Log in
     const [emailLogIn, setEmailLogIn] = React.useState();
     const [passLogIn, setPassLogIn] = React.useState();
+    const [userEmail, setUserEmail] = React.useState('');
     const [rememberMe, setRememberMe] = React.useState(false);
 
     const [visible, setVisible] = React.useState(false);
@@ -40,6 +41,9 @@ export default function NavbarNUI() {
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
         const res = await Api.login(newUser);
+        if(res){
+            setEnterEffect(true);
+        }
     }
 
     //Sign up
@@ -61,11 +65,15 @@ export default function NavbarNUI() {
     //End of log in
 
     const [username, setUsername] = React.useState('');
+    const [enterEffect, setEnterEffect] = React.useState(false);
 
     useEffect(() => {
-        Api.setToken(localStorage.getItem("x-token"));
-        Api.setUsername(localStorage.getItem("username"));
-        setUsername(Api.username);
+        if(enterEffect){
+            Api.setToken(localStorage.getItem("x-token"));
+            Api.setUsername(localStorage.getItem("username"));
+            setUserEmail("johndoe");
+            setEnterEffect(false);
+        }
     });
 
     return (
@@ -110,7 +118,7 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
-                { true ? <div>
+                { userEmail === '' ? <div>
                     <Navbar.Content>
                 <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
@@ -131,11 +139,11 @@ export default function NavbarNUI() {
               as="button"
               size="md"
               color="primary"
-              name={username}
+              name={userEmail}
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
           </Dropdown.Trigger>
-          <Dropdown.Menu color="primary" aria-label="User Actions" onAction={(key="logout") => {Api.logout(); setUsername('')}}>
+          <Dropdown.Menu color="primary" aria-label="User Actions" onAction={(key="logout") => {Api.logout(); setUsername(''); setUserEmail(''); console.log(userEmail)}}>
             <Dropdown.Item key="profile" css={{ height: "$18" }}>
               <Text b color="inherit" css={{ d: "flex" }}>
                 Signed in as

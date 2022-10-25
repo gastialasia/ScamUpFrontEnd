@@ -103,12 +103,14 @@ class Api {
       Api.username = username
       window.localStorage.setItem("x-token", res.token);
       window.localStorage.setItem("username", username );
+      return 1;
     } catch (e) {
       console.log(e);
+      return 0;
     }
   }
 
-  static logout () {
+  static async logout () {
     console.log("logout")
     this.token = null;
     this.username = null;
@@ -134,6 +136,16 @@ class Api {
   static async getSwiftData (swift) {
     const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
     return await Api.get(url)
+  }
+
+  static async getUserEmail () {
+    try{
+      const url = `${Api.baseUrl}/users/userData`;
+      const res = await Api.post(url);
+      return res;
+    } catch (e) {
+      return '';
+    }
   }
 }
 

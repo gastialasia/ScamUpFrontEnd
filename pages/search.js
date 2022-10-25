@@ -355,7 +355,7 @@ function SearchPage() {
                 width="600px"
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
-                open={showEmail}
+                open={showSwift}
                 onClose={closeHandlerSwift}
             >
                 <Modal.Header>
