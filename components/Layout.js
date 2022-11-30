@@ -3,7 +3,7 @@ import NavbarNUI from "./NavbarNUI";
 export default function Layout({ children }) {
     return (
         <div>
-            <NavbarNUI/>
+            <NavbarNUI />
             <main>{children}</main>
         </div>
     );

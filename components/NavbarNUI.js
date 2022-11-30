@@ -85,7 +85,7 @@ export default function NavbarNUI() {
     });
 
     return (
-        <Navbar isBordered variant="sticky">
+        <Navbar isBordered variant="sticky" maxWidth="fluid">
             <Button
                 light
                 color="primary"

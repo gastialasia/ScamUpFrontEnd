@@ -178,7 +178,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleEmail}
-                                css={{ width: 204 }}
+                                css={{ width: 204, zIndex: 3 }}
                             >
                                 {loadingEmail ? <Loading color="currentColor" size="sm" /> : 'Search by email'}
                             </Button>
@@ -207,7 +207,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handlePhone}
-                                css={{ width: 204 }}
+                                css={{ width: 204, zIndex: 3 }}
                             >
                                 {loadingPhone ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
                             </Button>
@@ -236,7 +236,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleSwift}
-                                css={{ width: 204 }}
+                                css={{ width: 204, zIndex: 3 }}
                             >
                                 {loadingSwift ? <Loading color="currentColor" size="sm" /> : 'Search by Swift code'}
                             </Button>
@@ -264,7 +264,7 @@ function SearchPage() {
                                 color="primary"
                                 auto
                                 onPress={handleKYC}
-                                css={{ width: 204 }}
+                                css={{ width: 204, zIndex: 3 }}
                             >
                                 Search by KYC
                             </Button>
