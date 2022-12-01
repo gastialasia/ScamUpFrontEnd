@@ -1,6 +1,9 @@
 import * as React from "react";
+import {useEffect} from "react";
 import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading } from "@nextui-org/react";
 import { Api } from "../api/api";
+import { useRouter } from 'next/router'
+
 
 function SearchPage() {
     //Variables for request
@@ -20,6 +23,9 @@ function SearchPage() {
     const [loadingPhone, setLoadingPhone] = React.useState(false);
     const [loadingSwift, setLoadingSwift] = React.useState(false);
     const [loadingKYC, setLoadingKYC] = React.useState(false);
+
+    //Variables for log in
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
     //Email validation
     const validateEmail = () => {
@@ -141,7 +147,22 @@ function SearchPage() {
         }
     };
 
+    // const isLoggedIn = React.useMemo(() => {
+    //     return Api.token != null
+    // }, [Api.token])
+
+    const router = useRouter();
+
+    useEffect(()=>{
+        if(Api.getToken()==true){
+            setIsLoggedIn(true)
+        }else{
+            setIsLoggedIn(false)
+        }
+    },[Api.getToken()]);
+
     return (
+        isLoggedIn?
         <div style={{ padding: 15 }}>
             <Grid.Container
                 justify="center"
@@ -381,7 +402,7 @@ function SearchPage() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </div> : <Text>Not logged in</Text>
 
     );
 }

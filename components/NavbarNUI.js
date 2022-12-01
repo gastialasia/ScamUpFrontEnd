@@ -84,6 +84,8 @@ export default function NavbarNUI() {
         }
     });
 
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
     return (
         <Navbar isBordered variant="sticky" maxWidth="fluid">
             <Button
@@ -114,15 +116,16 @@ export default function NavbarNUI() {
                 activeColor={"primary"}
                 hideIn="xs"
                 variant={"highlight"}
+                enableCursorHighlight
             >
                 <NextLink href="/pricing">
-                    <Navbar.Link>Pricing</Navbar.Link>
+                    <Navbar.Link isActive={selectedIndex==0} onClick={() => setSelectedIndex(0)} >Pricing</Navbar.Link>
                 </NextLink>
                 <NextLink href="/search">
-                    <Navbar.Link>Search</Navbar.Link>
+                    <Navbar.Link isActive={selectedIndex==1} onClick={() => setSelectedIndex(1)} >Search</Navbar.Link>
                 </NextLink>
                 <NextLink href="/about">
-                    <Navbar.Link>About us</Navbar.Link>
+                    <Navbar.Link isActive={selectedIndex==2} onClick={() => setSelectedIndex(2)} >About us</Navbar.Link>
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
