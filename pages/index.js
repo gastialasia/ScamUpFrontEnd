@@ -21,7 +21,7 @@ function LandingPage() {
             </Grid.Container>
             <Grid.Container gap={2} justify="space-around" css={{ mt: 15 }}>
                 <Spacer />
-                <Grid xs={4}>
+                <Grid md={5} xs={11}>
                     <Text size={20}>
                         Scams can happen in a myriad of ways- via phishing emails,
                         social media, SMS messages on your mobile phone, fake tech
@@ -32,7 +32,7 @@ function LandingPage() {
                         gathering different tools which are currently available but difficult to use.
                     </Text>
                  </Grid>
-                 <Grid xs={4}>
+                 <Grid md={5} xs={11}>
                     <Image src="/assets/scam-img.png"></Image>
                  </Grid>
                  <Spacer />
