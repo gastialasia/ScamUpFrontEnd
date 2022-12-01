@@ -88,6 +88,7 @@ export default function NavbarNUI() {
 
     return (
         <Navbar isBordered variant="sticky" maxWidth="fluid">
+            <Navbar.Toggle showIn="xs" />
             <Button
                 light
                 color="primary"
@@ -96,7 +97,6 @@ export default function NavbarNUI() {
                 ripple={false}
                 css={{ px: 0 }}
             >
-                <Navbar.Toggle showIn="xs" />
                 <Navbar.Brand>
                     <Image 
                     width={40}  
@@ -188,7 +188,6 @@ export default function NavbarNUI() {
             </NextLink>
             </Navbar.CollapseItem>
         </Navbar.Collapse>
-
             <Modal
                 closeButton
                 blur
