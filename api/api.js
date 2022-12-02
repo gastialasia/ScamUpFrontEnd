@@ -25,8 +25,8 @@ class Api {
     return 60 * 1000;
   }
 
-  static async MyFetch (url, controller) {
-    if(!this.isLoggedIn()){
+  static async MyFetch(url, controller) {
+    if (!this.isLoggedIn()) {
       throw "No user is logged in"
     }
     const response = await fetch(url)
@@ -79,7 +79,7 @@ class Api {
   }
 
   static async put(url, data, controller) {
-    return await Api.fetch(url,{
+    return await Api.fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json; charset=utf-8"
@@ -95,73 +95,71 @@ class Api {
   }
 
   static async login(user, rememberMe) {
-    try{
-      /**
+    try {
       const url = `${Api.baseUrl}/auth/login`
       const res = await Api.post(url, user);
       Api.token = res.token;
       const username = user.email.substring(0, user.email.indexOf('@'))
       Api.username = username
-      //if(rememberMe) {
+      if(rememberMe) {
         window.localStorage.setItem("x-token", res.token);
-        window.localStorage.setItem("username", username ); 
+        window.localStorage.setItem("username", username);
+      }
       return res.token;
-         */
-        Api.token = "AAAAA"
-        Api.username = "BBBBB"
-        window.localStorage.setItem("x-token", "AAAAA");
-        window.localStorage.setItem("username", "BBBBBB");
-        return "AAAAAA"
-      //}
-    } catch (e) {
-      // console.log(e);
-      console.log("Fallo esto");
-      return 0;
-    }
+      // Api.token = "AAAAA"
+      // Api.username = "BBBBB"
+      // window.localStorage.setItem("x-token", "AAAAA");
+      // window.localStorage.setItem("username", "BBBBBB");
+      // return "AAAAAA"
+    } catch(e) {
+    // console.log(e);
+    console.log("Fallo esto");
+    return 0;
   }
+}
 
-  static async logout () {
-    console.log("logout")
-    this.token = null;
-    this.username = null;
-    window.localStorage.removeItem("x-token");
-    window.localStorage.removeItem("username");
+  static async logout() {
+  console.log("logout")
+  this.token = null;
+  this.username = null;
+  window.localStorage.removeItem("x-token");
+  window.localStorage.removeItem("username");
 }
 
   static async createUser(user) {
-    const url = `${Api.baseUrl}/users`
-    return await Api.post(url, user);
-  }
+  const url = `${Api.baseUrl}/users`
+  return await Api.post(url, user);
+}
 
-  static async getEmailData (mail) {
-    const url = `${Api.baseUrl}/email_verification?mail=${mail}`
-    return await Api.get(url)
-  }
+  static async getEmailData(mail) {
+  const url = `${Api.baseUrl}/email_verification?mail=${mail}`
+  return await Api.get(url)
+}
 
-  static async getPhoneData (number) {
-    const url = `${Api.baseUrl}/phone_verification?phone=${number}`
-    return await Api.get(url)
-  }
+  static async getPhoneData(number) {
+  const url = `${Api.baseUrl}/phone_verification?phone=${number}`
+  return await Api.get(url)
+}
 
-  static async getSwiftData (swift) {
-    const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
-    return await Api.get(url)
-  }
+  static async getSwiftData(swift) {
+  const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
+  return await Api.get(url)
+}
 
-  static async getUserEmail () {
-    try{
-      const url = `${Api.baseUrl}/users/userData`;
-      const res = await Api.post(url);
-      return res;
-    } catch (e) {
-      return '';
-    }
+  static async getUserEmail() {
+  try {
+    const url = `${Api.baseUrl}/users/userData`;
+    const res = await Api.post(url);
+    return res;
+  } catch (e) {
+    return '';
   }
+}
 }
 
 class ApiUser {
   constructor(email, pass) {
     this.email = email;
     this.password = pass;
-}
+  }
 }

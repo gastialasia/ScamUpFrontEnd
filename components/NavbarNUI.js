@@ -169,7 +169,8 @@ export default function NavbarNUI() {
               size="md"
               color="primary"
               //name={userEmail.substring(0, userEmail.indexOf('@'))}
-              name = "Usuario"
+              //name = "Usuario"
+              name = {context.usernameContext}
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
           </Dropdown.Trigger>

@@ -25,7 +25,6 @@ function PricingPage() {
             </Grid>
             </Grid.Container>
         </div>
-       
     );
 }
 
