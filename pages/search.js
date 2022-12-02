@@ -402,8 +402,15 @@ function SearchPage() {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </div> : <Text>Not logged in</Text>
-
+            </div> : 
+            <Grid.Container gap={2} direction="column" justify="center" alignContent="center" alignItems="center">
+            <Grid>
+                <Text color="Grey" size={40}>You are not logged in</Text>
+            </Grid>
+            <Grid>
+                <Text color="Grey">Please log in or create a ScamUp account to start searching for scammers.</Text>
+            </Grid>
+        </Grid.Container>
     );
 }
 

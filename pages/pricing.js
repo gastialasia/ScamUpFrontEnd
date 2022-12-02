@@ -1,11 +1,16 @@
 import { Card, Grid, Link, Text } from "@nextui-org/react";
 import PrincingCard from "../components/PricingCard";
+import { useContext } from 'react';
+import AppContext from "../components/AppContext";
 
 
 function PricingPage() {
 
+    const context = useContext(AppContext);
+
     return (
         <div div style={{ padding: 15 }}>
+            <Text>{context.nameContext}</Text>
             <Grid.Container justify="space-evenly" direction="column" alignContent="center">
           <h2 style={{ textAlign: 'center' }}>Pricing</h2>
             </Grid.Container>

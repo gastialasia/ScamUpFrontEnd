@@ -31,7 +31,7 @@ export default function NavbarNUI() {
     const [emailLogIn, setEmailLogIn] = React.useState();
     const [passLogIn, setPassLogIn] = React.useState();
     const [userEmail, setUserEmail] = React.useState('');
-    const [rememberMe, setRememberMe] = React.useState(false);
+    const [rememberMe, setRememberMe] = React.useState(true);
 
     const [visible, setVisible] = React.useState(false);
     const [visibleSignUp, setVisibleSignUp] = React.useState(false);
@@ -40,7 +40,7 @@ export default function NavbarNUI() {
 
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
-        const res = await Api.login(newUser, rememberMe);
+        const res = await Api.login(newUser, true);
         if(res){
             setEnterEffect(true);
         }
@@ -233,7 +233,7 @@ export default function NavbarNUI() {
                     />
                     <Row justify="space-between">
                         <Checkbox
-                            onChange={(e) => setRememberMe(e.target.value)}
+                            //onChange={(e) => setRememberMe(e.target.value)}
                         >
                             <Text size={14}>Remember me</Text>
                         </Checkbox>

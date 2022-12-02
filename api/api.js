@@ -101,10 +101,10 @@ class Api {
       Api.token = res.token;
       const username = user.email.substring(0, user.email.indexOf('@'))
       Api.username = username
-      if(rememberMe) {
+      //if(rememberMe) {
         window.localStorage.setItem("x-token", res.token);
         window.localStorage.setItem("username", username );
-      }
+      //}
       return 1;
     } catch (e) {
       console.log(e);
