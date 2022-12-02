@@ -40,7 +40,7 @@ export default function NavbarNUI() {
 
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
-        const res = await Api.login(newUser);
+        const res = await Api.login(newUser, rememberMe);
         if(res){
             setEnterEffect(true);
         }
@@ -65,17 +65,21 @@ export default function NavbarNUI() {
     //End of log in
 
     const [username, setUsername] = React.useState('');
-    const [enterEffect, setEnterEffect] = React.useState(false);
+    const [enterEffect, setEnterEffect] = React.useState(true);
 
     useEffect(() => {
         if(enterEffect){
+            console.log("ok");
+            var ok = localStorage.getItem("x-token");
             Api.setToken(localStorage.getItem("x-token"));
             Api.setUsername(localStorage.getItem("username"));
             // declare the data fetching function
             const emailCall = async () => {
-                const data = await Api.getUserEmail();
-                setUserEmail(data.email);
-                setUsername(userEmail.substring(0, userEmail.indexOf('@')));
+                if (ok) {
+                    const data = await Api.getUserEmail();
+                    setUserEmail(data.email);
+                    setUsername(userEmail.substring(0, userEmail.indexOf('@')));
+                }
             }
 
             // call the function
@@ -155,7 +159,12 @@ export default function NavbarNUI() {
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
           </Dropdown.Trigger>
-          <Dropdown.Menu color="primary" aria-label="User Actions" onAction={(key="logout") => {Api.logout(); setUsername(''); setUserEmail(''); console.log(userEmail)}}>
+          <Dropdown.Menu color="primary" aria-label="User Actions" 
+        onAction={(key) => {
+            if (key == "logout") {
+                Api.logout(); setUsername(''); setUserEmail(''); console.log(userEmail)
+            }
+        }}>
             <Dropdown.Item key="profile" css={{ height: "$18" }}>
               <Text b color="inherit" css={{ d: "flex" }}>
                 Signed in as
@@ -223,7 +232,9 @@ export default function NavbarNUI() {
                         onChange={(e) => setPassLogIn(e.target.value)}
                     />
                     <Row justify="space-between">
-                        <Checkbox>
+                        <Checkbox
+                            onChange={(e) => setRememberMe(e.target.value)}
+                        >
                             <Text size={14}>Remember me</Text>
                         </Checkbox>
                         <Text size={14}>Forgot password?</Text>

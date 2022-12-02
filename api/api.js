@@ -94,15 +94,17 @@ class Api {
     }, controller);
   }
 
-  static async login(user) {
+  static async login(user, rememberMe) {
     try{
       const url = `${Api.baseUrl}/auth/login`
       const res = await Api.post(url, user);
       Api.token = res.token;
       const username = user.email.substring(0, user.email.indexOf('@'))
       Api.username = username
-      window.localStorage.setItem("x-token", res.token);
-      window.localStorage.setItem("username", username );
+      if(rememberMe) {
+        window.localStorage.setItem("x-token", res.token);
+        window.localStorage.setItem("username", username );
+      }
       return 1;
     } catch (e) {
       console.log(e);
