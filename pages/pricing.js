@@ -10,7 +10,6 @@ function PricingPage() {
 
     return (
         <div div style={{ padding: 15 }}>
-            <Text>{context.nameContext}</Text>
             <Grid.Container justify="space-evenly" direction="column" alignContent="center">
           <h2 style={{ textAlign: 'center' }}>Pricing</h2>
             </Grid.Container>

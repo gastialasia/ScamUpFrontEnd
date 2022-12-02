@@ -1,4 +1,4 @@
-export { Api, ApiUser }
+export { Api, ApiUser };
 
 class Api {
 
@@ -96,6 +96,7 @@ class Api {
 
   static async login(user, rememberMe) {
     try{
+      /**
       const url = `${Api.baseUrl}/auth/login`
       const res = await Api.post(url, user);
       Api.token = res.token;
@@ -103,11 +104,18 @@ class Api {
       Api.username = username
       //if(rememberMe) {
         window.localStorage.setItem("x-token", res.token);
-        window.localStorage.setItem("username", username );
+        window.localStorage.setItem("username", username ); 
+      return res.token;
+         */
+        Api.token = "AAAAA"
+        Api.username = "BBBBB"
+        window.localStorage.setItem("x-token", "AAAAA");
+        window.localStorage.setItem("username", "BBBBBB");
+        return "AAAAAA"
       //}
-      return 1;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
+      console.log("Fallo esto");
       return 0;
     }
   }

@@ -17,11 +17,13 @@ import { Password } from "./Password";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Api, ApiUser } from "../api/api";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import AppContext from "../components/AppContext";
 
 export default function NavbarNUI() {
 
     const router = useRouter();
+    const context = useContext(AppContext);
 
     function goToHome() {
         router.push("/");
@@ -41,9 +43,20 @@ export default function NavbarNUI() {
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
         const res = await Api.login(newUser, true);
+        context.setTokenContext(res);
+        context.setUsernameContext("BBBBBBb");
         if(res){
             setEnterEffect(true);
         }
+    }
+
+    function LogOut () {
+        Api.logout(); 
+        setUsername(''); 
+        setUserEmail(''); 
+        context.setTokenContext(null);
+        context.setUsernameContext(null);
+        console.log(userEmail)
     }
 
     //Sign up
@@ -155,14 +168,15 @@ export default function NavbarNUI() {
               as="button"
               size="md"
               color="primary"
-              name={userEmail.substring(0, userEmail.indexOf('@'))}
+              //name={userEmail.substring(0, userEmail.indexOf('@'))}
+              name = "Usuario"
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
           </Dropdown.Trigger>
           <Dropdown.Menu color="primary" aria-label="User Actions" 
         onAction={(key) => {
             if (key == "logout") {
-                Api.logout(); setUsername(''); setUserEmail(''); console.log(userEmail)
+                LogOut();
             }
         }}>
             <Dropdown.Item key="profile" css={{ height: "$18" }}>

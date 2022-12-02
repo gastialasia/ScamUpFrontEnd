@@ -1,11 +1,15 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useContext  } from "react";
 import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading } from "@nextui-org/react";
 import { Api } from "../api/api";
 import { useRouter } from 'next/router'
+import AppContext from "../components/AppContext";
 
 
 function SearchPage() {
+
+    const context = useContext(AppContext);
+
     //Variables for request
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
@@ -162,7 +166,7 @@ function SearchPage() {
     }, [Api.token]);
 
     return (
-        isLoggedIn ?
+        context.tokenContext ?
             <div style={{ padding: 15 }}>
                 <Grid.Container
                     justify="center"
