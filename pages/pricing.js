@@ -16,7 +16,7 @@ function PricingPage() {
             </Grid.Container>
             <div style={{ padding: 15 }}>
                 <Grid.Container justify="center" gap={2} fluid>
-                    <Grid xs={12} sm={6} md={4} lg={3}>
+                    <Grid xs={12} sm={6} md={4} lg={4} xl={3}>
                         <PrincingCard
                             planName="Free Plan"
                             pricePerMonth="$0/month"
@@ -28,7 +28,7 @@ function PricingPage() {
                             hasButton={context.roleContext !== 0}
                             buttonText="Restore plan" />
                     </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3}>
+                    <Grid xs={12} sm={6} md={4} lg={4} xl={3}>
                         <PrincingCard
                             planName="Premium Plan"
                             pricePerMonth="$10/month"
@@ -41,7 +41,7 @@ function PricingPage() {
                             hasButton={context.roleContext !== 1}
                             buttonText="Purchase plan" />
                     </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3}>
+                    <Grid xs={12} sm={6} md={4} lg={4} xl={3}>
                         <PrincingCard
                             planName="Business Plan"
                             pricePerMonth="$50/month"
