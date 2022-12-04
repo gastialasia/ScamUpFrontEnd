@@ -11,8 +11,12 @@ function MyApp({ Component, pageProps }) {
   const [usernameContext, setUsernameContext] = useState(null)
 
   useEffect(() => {
-      setTokenContext(localStorage.getItem("x-token"))
-      setUsernameContext(localStorage.getItem("username"))
+      const token = window.localStorage.getItem("x-token");
+      const username = window.localStorage.getItem("username");
+      if (token && username) {
+      setTokenContext(token)
+      setUsernameContext(username)
+      }
   });
 
   return (

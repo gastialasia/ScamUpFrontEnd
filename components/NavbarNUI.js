@@ -33,7 +33,7 @@ export default function NavbarNUI() {
     const [emailLogIn, setEmailLogIn] = React.useState();
     const [passLogIn, setPassLogIn] = React.useState();
     const [userEmail, setUserEmail] = React.useState('');
-    const [rememberMe, setRememberMe] = React.useState(true);
+    const [rememberMe, setRememberMe] = React.useState(false);
 
     const [visible, setVisible] = React.useState(false);
     const [visibleSignUp, setVisibleSignUp] = React.useState(false);
@@ -42,11 +42,16 @@ export default function NavbarNUI() {
 
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
-        const res = await Api.login(newUser, true);
+        const res = await Api.login(newUser, rememberMe);
+        const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
         context.setTokenContext(res);
-        context.setUsernameContext("BBBBBBb");
+        context.setUsernameContext(name);
+        // console.log(name);
+        // console.log(context.usernameContext);
+        setUsername(name);
+        setUserEmail(emailLogIn);
         if(res){
-            setEnterEffect(true);
+            setEnterEffect(false);
         }
     }
 
@@ -82,19 +87,21 @@ export default function NavbarNUI() {
 
     useEffect(() => {
         if(enterEffect){
-            console.log("ok");
-            var ok = localStorage.getItem("x-token");
-            Api.setToken(localStorage.getItem("x-token"));
-            Api.setUsername(localStorage.getItem("username"));
+            // console.log("ok");
+            var token = localStorage.getItem("x-token");
+            var user = localStorage.getItem("username");
+            Api.setToken(token);
+            Api.setUsername(user);
             // declare the data fetching function
             const emailCall = async () => {
-                if (ok) {
+                if (token) {
                     const data = await Api.getUserEmail();
+                    context.setTokenContext(token)
+                    context.setUsernameContext(username);
                     setUserEmail(data.email);
-                    setUsername(userEmail.substring(0, userEmail.indexOf('@')));
+                    setUsername(username);
                 }
             }
-
             // call the function
             emailCall();
             setEnterEffect(false);
@@ -168,8 +175,6 @@ export default function NavbarNUI() {
               as="button"
               size="md"
               color="primary"
-              //name={userEmail.substring(0, userEmail.indexOf('@'))}
-              //name = "Usuario"
               name = {context.usernameContext}
               src="https://cdn.iconscout.com/icon/free/png-128/avatar-372-456324.png"
             />
@@ -248,7 +253,7 @@ export default function NavbarNUI() {
                     />
                     <Row justify="space-between">
                         <Checkbox
-                            //onChange={(e) => setRememberMe(e.target.value)}
+                            onChange={setRememberMe}
                         >
                             <Text size={14}>Remember me</Text>
                         </Checkbox>

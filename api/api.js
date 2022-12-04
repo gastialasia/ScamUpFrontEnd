@@ -99,8 +99,8 @@ class Api {
       const url = `${Api.baseUrl}/auth/login`
       const res = await Api.post(url, user);
       Api.token = res.token;
-      const username = user.email.substring(0, user.email.indexOf('@'))
       Api.username = username
+      const username = user.email.substring(0, user.email.indexOf('@'))
       if(rememberMe) {
         window.localStorage.setItem("x-token", res.token);
         window.localStorage.setItem("username", username);
@@ -112,10 +112,10 @@ class Api {
       // window.localStorage.setItem("username", "BBBBBB");
       // return "AAAAAA"
     } catch(e) {
-    // console.log(e);
-    console.log("Fallo esto");
-    return 0;
-  }
+      console.log(e);
+      console.log("Fallo esto");
+      return 0;
+    }
 }
 
   static async logout() {
