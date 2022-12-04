@@ -275,7 +275,7 @@ export default function NavbarNUI() {
                 blur
                 aria-labelledby="modal-title"
                 open={visibleSignUp}
-                onClose={closeHandler}
+                onClose={closeHandlerSignUp}
             >
                 <Modal.Header>
                     <Text id="modal-title" size={18}>
