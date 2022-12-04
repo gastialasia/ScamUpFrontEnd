@@ -29,62 +29,6 @@ export default function NavbarNUI() {
         router.push("/");
     }
 
-    //Log in
-    const [emailLogIn, setEmailLogIn] = React.useState();
-    const [passLogIn, setPassLogIn] = React.useState();
-    const [userEmail, setUserEmail] = React.useState('');
-    const [rememberMe, setRememberMe] = React.useState(false);
-
-    const [visible, setVisible] = React.useState(false);
-    const [visibleSignUp, setVisibleSignUp] = React.useState(false);
-    const handler = () => setVisible(true);
-    const handlerSignUp = () => setVisibleSignUp(true);
-
-    async function LogIn () {
-        const newUser = new ApiUser(emailLogIn, passLogIn);
-        const res = await Api.login(newUser, rememberMe);
-        const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
-        context.setTokenContext(res);
-        context.setUsernameContext(name);
-        // console.log(name);
-        // console.log(context.usernameContext);
-        setUsername(name);
-        setUserEmail(emailLogIn);
-        if(res){
-            setEnterEffect(false);
-        }
-    }
-
-    function LogOut () {
-        Api.logout(); 
-        setUsername(''); 
-        setUserEmail(''); 
-        context.setTokenContext(null);
-        context.setUsernameContext(null);
-        console.log(userEmail)
-    }
-
-    //Sign up
-    const [email, setEmail] = React.useState();
-    const [pass, setPass] = React.useState();
-
-    async function SignUp () {
-        console.log(email, pass);
-        const res = await Api.createUser(new ApiUser(email, pass));
-    }
-
-    const closeHandler = () => {
-        setVisible(false);
-    };
-
-    const closeHandlerSignUp = () => {
-        setVisibleSignUp(false);
-    };
-    //End of log in
-
-    const [username, setUsername] = React.useState('');
-    const [enterEffect, setEnterEffect] = React.useState(true);
-
     useEffect(() => {
         if(enterEffect){
             // console.log("ok");
@@ -108,7 +52,127 @@ export default function NavbarNUI() {
         }
     });
 
+
+    //Log in
+    const [emailLogIn, setEmailLogIn] = React.useState();
+    const [passLogIn, setPassLogIn] = React.useState();
+    const [userEmail, setUserEmail] = React.useState('');
+    const [rememberMe, setRememberMe] = React.useState(false);
+
+    const [visible, setVisible] = React.useState(false);
+    const [visibleSignUp, setVisibleSignUp] = React.useState(false);
+    const handler = () => setVisible(true);
+    const handlerSignUp = () => setVisibleSignUp(true);
+    const closeHandler = () => {
+        setVisible(false);
+        setEmailLogIn('');
+        setPassLogIn('');
+    }
+    const closeHandlerSignUp = () => {
+        setVisibleSignUp(false);
+        setEmail('');
+        setPass('');
+    }
+    //Sign up
+    const [email, setEmail] = React.useState();
+    const [pass, setPass] = React.useState();
+
+
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [username, setUsername] = React.useState('');
+    const [enterEffect, setEnterEffect] = React.useState(true);
+
+    async function LogIn () {
+        const newUser = new ApiUser(emailLogIn, passLogIn);
+        const res = await Api.login(newUser, rememberMe);
+        const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
+        context.setTokenContext(res);
+        context.setUsernameContext(name);
+        // console.log(name);
+        // console.log(context.usernameContext);
+        setUsername(name);
+        setUserEmail(emailLogIn);
+        if(res){
+            setEnterEffect(false);
+        }
+    }
+
+    const validateEmail = (str) => {
+        return str.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+    };
+    
+    const LogInEmailHelper = React.useMemo(() => {
+        if (!emailLogIn)
+            return {
+                text: "",
+                color: "",
+                valid: false,
+            };
+        const LogInEmailValid = validateEmail(emailLogIn);
+        return {
+            text: LogInEmailValid ? "Correct email" : "Enter a valid email",
+            color: LogInEmailValid ? "success" : "error",
+            valid: LogInEmailValid,
+        };
+    }, [emailLogIn]
+    );
+
+    function LogOut () {
+        Api.logout(); 
+        setUsername(''); 
+        setUserEmail(''); 
+        context.setTokenContext(null);
+        context.setUsernameContext(null);
+        console.log(userEmail)
+    }
+    //End of log in
+
+    async function SignUp () {
+        console.log(email, pass);
+        const res = await Api.createUser(new ApiUser(email, pass));
+    }
+
+    //Sign up validation
+
+
+    
+    const SignUpEmailHelper = React.useMemo(() => {
+        if (!email)
+            return {
+                text: "",
+                color: "",
+                valid: false,
+            };
+        const isSignUpEmailValid = validateEmail(email);
+        return {
+            text: isSignUpEmailValid ? "Correct email" : "Enter a valid email",
+            color: isSignUpEmailValid ? "success" : "error",
+            valid: isSignUpEmailValid,
+        };
+    }, [email]
+    );
+
+    const validatePassword = () => {
+        return pass.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i);
+    };
+
+       const SignUpPasswordHelper = React.useMemo(() => {
+        if (!pass)
+            return {
+                text: "",
+                color: "",
+                valid: false,
+            };
+        const isSignUpPasswordValid = validatePassword(pass);
+        return {
+            text: isSignUpPasswordValid ? "Good password" : "8 characters, one uppercase letter, and one number REQUIRED",
+            color: isSignUpPasswordValid ? "success" : "error",
+            valid: isSignUpPasswordValid,
+        };
+    }, [pass]
+    );
+
+    
 
     return (
         <Navbar isBordered variant="sticky" maxWidth="fluid">
@@ -257,14 +321,16 @@ export default function NavbarNUI() {
                         >
                             <Text size={14}>Remember me</Text>
                         </Checkbox>
-                        <Text size={14}>Forgot password?</Text>
+                        {/* <Text size={14}>Forgot password?</Text> */}
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button auto flat color="error" onPress={closeHandler}>
                         Close
                     </Button>
-                    <Button auto onPress={ () => { LogIn(); closeHandler(); }} >
+                    <Button 
+                    disabled = {!LogInEmailHelper.valid || !passLogIn}
+                    auto onPress={ () => { LogIn(); closeHandler(); }} >
                         Log in
                     </Button>
                 </Modal.Footer>
@@ -288,11 +354,14 @@ export default function NavbarNUI() {
                         clearable
                         bordered
                         fullWidth
-                        color="primary"
                         size="lg"
                         placeholder="Email"
                         contentLeft={<Mail fill="currentColor" />}
                         onChange={(e) => setEmail(e.target.value)}
+                        status={SignUpEmailHelper.color}
+                        color={SignUpEmailHelper.color}
+                        helperColor={SignUpEmailHelper.color}
+                        helperText={SignUpEmailHelper.text}
                     />
                     <Input.Password
                         label="Password"
@@ -300,18 +369,24 @@ export default function NavbarNUI() {
                         bordered
                         fullWidth
                         type="password"
-                        color="primary"
                         size="lg"
                         placeholder="Password"
                         contentLeft={<Password fill="currentColor" />}
                         onChange={(e) => setPass(e.target.value)}
+                        status={SignUpPasswordHelper.color}
+                        color={SignUpPasswordHelper.color}
+                        helperColor={SignUpPasswordHelper.color}
+                        helperText={SignUpPasswordHelper.text}
                     />
+                    <Text></Text>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button auto flat color="error" onPress={closeHandlerSignUp}>
                         Close
                     </Button>
-                    <Button auto onPress={ () => { SignUp(); closeHandlerSignUp();} } >
+                    <Button 
+                    disabled = {!SignUpEmailHelper.valid || !SignUpPasswordHelper.valid}
+                    auto onPress={ () => { SignUp(); closeHandlerSignUp();} } >
                         Sign up
                     </Button>
                 </Modal.Footer>
