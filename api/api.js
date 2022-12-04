@@ -49,8 +49,9 @@ class Api {
       const response = await fetch(url, init);
       const text = await response.text();
       const result = text ? (JSON).parse(text) : {};
-      if (result.code)
-        throw result;
+      if (result.msg) {
+        throw { "code": 400, "description": result.msg.toLowerCase() };
+      }
       return result;
     } catch (error) {
       if (error.code)
@@ -106,14 +107,8 @@ class Api {
         window.localStorage.setItem("username", username);
       }
       return res.token;
-      // Api.token = "AAAAA"
-      // Api.username = "BBBBB"
-      // window.localStorage.setItem("x-token", "AAAAA");
-      // window.localStorage.setItem("username", "BBBBBB");
-      // return "AAAAAA"
     } catch(e) {
       console.log(e);
-      console.log("Fallo esto");
       return 0;
     }
 }

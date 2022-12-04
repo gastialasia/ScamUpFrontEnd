@@ -63,15 +63,17 @@ export default function NavbarNUI() {
     const [visibleSignUp, setVisibleSignUp] = React.useState(false);
     const handler = () => setVisible(true);
     const handlerSignUp = () => setVisibleSignUp(true);
+
     const closeHandler = () => {
         setVisible(false);
         setEmailLogIn('');
         setPassLogIn('');
+        setInvalidCredentials(false);
     }
     const closeHandlerSignUp = () => {
-        setVisibleSignUp(false);
         setEmail('');
         setPass('');
+        setVisibleSignUp(false);
     }
     //Sign up
     const [email, setEmail] = React.useState();
@@ -81,19 +83,22 @@ export default function NavbarNUI() {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [username, setUsername] = React.useState('');
     const [enterEffect, setEnterEffect] = React.useState(true);
+    const [invalidCredentials, setInvalidCredentials] = React.useState(false);
 
     async function LogIn () {
         const newUser = new ApiUser(emailLogIn, passLogIn);
         const res = await Api.login(newUser, rememberMe);
-        const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
-        context.setTokenContext(res);
-        context.setUsernameContext(name);
-        // console.log(name);
-        // console.log(context.usernameContext);
-        setUsername(name);
-        setUserEmail(emailLogIn);
-        if(res){
+        if (res) {
+            const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
+            context.setTokenContext(res);
+            context.setUsernameContext(name);
+            setUsername(name);
+            setUserEmail(emailLogIn);
             setEnterEffect(false);
+            closeHandler();
+        } else {
+            console.log("Invalid credentials");
+            setInvalidCredentials(true);
         }
     }
 
@@ -102,6 +107,7 @@ export default function NavbarNUI() {
     };
     
     const LogInEmailHelper = React.useMemo(() => {
+        setInvalidCredentials(false);
         if (!emailLogIn)
             return {
                 text: "",
@@ -294,6 +300,9 @@ export default function NavbarNUI() {
                     </Text>
                 </Modal.Header>
                 <Modal.Body>
+                    {invalidCredentials ?
+                    <Text size={12} color="error" >Invalid username or password</Text>
+                    : <></>}
                     <Input
                         clearable
                         bordered
@@ -313,7 +322,7 @@ export default function NavbarNUI() {
                         size="lg"
                         placeholder="Password"
                         contentLeft={<Password fill="currentColor"/>}
-                        onChange={(e) => setPassLogIn(e.target.value)}
+                        onChange={(e) => {setPassLogIn(e.target.value); setInvalidCredentials(false);}}
                     />
                     <Row justify="space-between">
                         <Checkbox
@@ -330,7 +339,9 @@ export default function NavbarNUI() {
                     </Button>
                     <Button 
                     disabled = {!LogInEmailHelper.valid || !passLogIn}
-                    auto onPress={ () => { LogIn(); closeHandler(); }} >
+                    auto 
+                    onPress={ () => { LogIn() }} 
+                    >
                         Log in
                     </Button>
                 </Modal.Footer>
