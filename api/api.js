@@ -150,6 +150,14 @@ class Api {
     return '';
   }
 }
+
+  static async getScore(data) {
+    /*
+    const url = `${Api.baseUrl}/AAAAAAAAAAAAAAAAAAAAAAAAAAAA`;
+    return await Api.post(url, data)
+    */
+   return data
+  }
 }
 
 class ApiUser {

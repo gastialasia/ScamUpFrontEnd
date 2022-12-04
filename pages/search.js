@@ -14,18 +14,21 @@ function SearchPage() {
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
     const [swift, setSwift] = React.useState();
+    const [score, setScore] = React.useState();
     const [KYC, setKYC] = React.useState();
 
     //Variables for managing result
     const [emailResult, setEmailResult] = React.useState();
     const [phoneResult, setPhoneResult] = React.useState();
     const [swiftResult, setSwiftResult] = React.useState();
+    const [scoreResult, setScoreResult] = React.useState();
     const [KYCResult, setKYCResult] = React.useState();
 
     //Variables for conditional rendering
     const [loadingEmail, setLoadingEmail] = React.useState(false);
     const [loadingPhone, setLoadingPhone] = React.useState(false);
     const [loadingSwift, setLoadingSwift] = React.useState(false);
+    const [loadingScore, setLoadingScore] = React.useState(false);
     const [loadingKYC, setLoadingKYC] = React.useState(false);
 
     //Variables for log in
@@ -41,11 +44,13 @@ function SearchPage() {
             return {
                 text: "",
                 color: "",
+                valid: false,
             };
         const isEmailValid = validateEmail(email);
         return {
             text: isEmailValid ? "Correct email" : "Enter a valid email",
             color: isEmailValid ? "success" : "error",
+            valid: isEmailValid,
         };
     }, [email]
     );
@@ -60,11 +65,13 @@ function SearchPage() {
             return {
                 text: "",
                 color: "",
+                valid: false,
             };
         const isValidPhone = validatePhone(phone);
         return {
             text: isValidPhone ? "Correct phone" : "Enter a valid phone number",
             color: isValidPhone ? "success" : "error",
+            valid: isValidPhone,
         };
     }, [phone]
     );
@@ -79,11 +86,13 @@ function SearchPage() {
             return {
                 text: "",
                 color: "",
+                valid: false,
             };
         const isValidSwift = validateSwift(swift);
         return {
             text: isValidSwift ? "Correct Swift" : "Enter a valid Swift code",
             color: isValidSwift ? "success" : "error",
+            valid: isValidSwift,
         };
     }, [swift]
     );
@@ -100,9 +109,14 @@ function SearchPage() {
         setShowSwift(false);
     };
 
+    const closeHandlerScore = () => {
+        setShowScore(false);
+    };
+
     const [showEmail, setShowEmail] = React.useState();
     const [showPhone, setShowPhone] = React.useState();
     const [showSwift, setShowSwift] = React.useState();
+    const [showScore, setShowScore] = React.useState();
 
     async function handleEmail() {
         try {
@@ -139,6 +153,24 @@ function SearchPage() {
         }
         setLoadingSwift(false);
     };
+
+    async function handleScore() {
+        try {
+            setLoadingScore(true);
+            const data = {
+                email: email,
+                phone: phone,
+                swift: swift,
+            }
+            const res = await Api.getScore(data)
+            setScoreResult(res);
+            setShowScore(true);
+        }
+        catch (err) {
+            console.log("Error in score");
+        }
+        setLoadingScore(false)
+    }
 
     async function handleKYC() {
         try {
@@ -179,6 +211,13 @@ function SearchPage() {
                         the person you think is a scammer. It's not mandatory to
                         fill all fields.
                     </p>
+                    {context.roleContext ? 
+                    <Button
+                        disabled = {!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid}
+                        onPress = {handleScore}
+                    >
+                        Score Search
+                    </Button>: <></>}
                 </Grid.Container>
 
                 <Collapse.Group accordion={false} bordered css={{ margin: 50 }} >
@@ -204,6 +243,7 @@ function SearchPage() {
                                     auto
                                     onPress={handleEmail}
                                     css={{ width: 204, zIndex: 3 }}
+                                    disabled = {!emailHelper.valid}
                                 >
                                     {loadingEmail ? <Loading color="currentColor" size="sm" /> : 'Search by email'}
                                 </Button>
@@ -233,6 +273,7 @@ function SearchPage() {
                                     auto
                                     onPress={handlePhone}
                                     css={{ width: 204, zIndex: 3 }}
+                                    disabled = {!phoneHelper.valid}
                                 >
                                     {loadingPhone ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
                                 </Button>
@@ -262,6 +303,7 @@ function SearchPage() {
                                     auto
                                     onPress={handleSwift}
                                     css={{ width: 204, zIndex: 3 }}
+                                    disabled = {!swiftHelper.valid}
                                 >
                                     {loadingSwift ? <Loading color="currentColor" size="sm" /> : 'Search by Swift code'}
                                 </Button>
@@ -269,7 +311,7 @@ function SearchPage() {
                         </Grid.Container>
                     </Collapse>
 
-                    <Collapse title="Personal ID (KYC) coming soon..." disabled>
+                    <Collapse title="Personal ID (KYC)" disabled>
                         <Text>Enter submit the personal ID to do an exhaustive KYC
                             analysis of the person you think is a scammer</Text>
                         <Grid.Container gap={2} justify="space-between">
@@ -317,10 +359,6 @@ function SearchPage() {
                             <Text id="modal-title" h4>
                                 {emailResult?.email}
                             </Text>
-                            {emailResult?.details.domain_exists === false ? 
-                            <Text id="modal-title" size={20} >
-                                "This domain doesn't exist"
-                            </Text> : <div/>                            }
                             <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
                                 {emailResult?.suspicious ? "Suspicious" : "Not Suspicious"}
                             </Text>
@@ -328,34 +366,13 @@ function SearchPage() {
                                 Reputation: <b>{emailResult?.reputation}</b>
                             </Text>
                             <Text id="modal-title" size={20} >
-                                {emailResult?.details.blacklisted ? "Blacklisted email" : "Not blacklisted email"}
+                                Domain reputation: <b>{emailResult?.domain_reputation}</b>
                             </Text>
                             <Text id="modal-title" size={20} >
-                                {emailResult?.details.malicious_activity ? "Malicious activity detected" : "No malicious activity detected"}
+                                {emailResult?.spam ? "This is a spam email" : "This is not a spam email"}
                             </Text>
                             <Text id="modal-title" size={20} >
-                                {emailResult?.details.credentials_leaked ? "This email credentials have been leaked" : "No leaked credentials reported"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.data_breach ? "This email has been in a data breach" : "This email is safe from data breaches"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                Last seen: {emailResult?.details.last_seen}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.spam ? "Spam detected" : "Spam not detected"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.free_provider ? "This email is free provided" : "This is a paid email"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.spoofable ? "Spoofable email" : "Non spoofable email"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.spf_strict ? "Has receiving restrictions" : "Has no receiving restrictions"}
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                {emailResult?.details.spf_strict ? "Has DMARC enforcement" : "No DMARC enforcement detected"}
+                                {emailResult?.blacklistes ? "This email is blacklisted" : "This email is not blacklisted"}
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
@@ -383,20 +400,14 @@ function SearchPage() {
                         <Grid.Container direction="column">
                             <Text id="modal-description">
                             </Text>
-                            <Text id="modal-title" h2 style={phoneResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
+                            <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
                                 {phoneResult?.valid ? "Valid" : "Invalid"}
                             </Text>
                             <Text id="modal-title" size={20}>
                                 Country: <b>{phoneResult?.country_name}</b>
                             </Text>
-                            <Text id="modal-title" size={20}>
-                                Location: <b>{phoneResult?.location}</b>
-                            </Text>
                             <Text id="modal-title" size={20} >
                                 Carrier: <b>{phoneResult?.carrier}</b>
-                            </Text>
-                            <Text id="modal-title" size={20} >
-                                Line type: <b>{phoneResult?.line_type}</b>
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
@@ -424,22 +435,10 @@ function SearchPage() {
                             <Text id="modal-description">
                             </Text>
                             <Text id="modal-title" h3>
-                                {swiftResult?.data.bank.name}
+                                {swiftResult?.bank}
                             </Text>
-                            <Text id="modal-title" size={20}>
-                                Bank code: <b>{swiftResult?.data.bank.code}</b>
-                            </Text>
-                            <Text id="modal-title" size={20}>
-                                Country: <b>{swiftResult?.data.country.name}</b>
-                            </Text>
-                            <Text id="modal-title" size={20}>
-                                City: <b>{swiftResult?.data.city.name}</b>
-                            </Text>
-                            <Text id="modal-title" size={20}>
-                                Address: <b>{swiftResult?.data.address}</b>
-                            </Text>
-                            <Text id="modal-title" size={20}>
-                                Postal code: <b>{swiftResult?.data.postcode}</b>
+                            <Text id="modal-title" size={30}>
+                                Country: <b>{swiftResult?.country}</b>
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
@@ -448,6 +447,18 @@ function SearchPage() {
                             Ok
                         </Button>
                     </Modal.Footer>
+                </Modal>
+                <Modal
+                    scroll
+                    width="600px"
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                    open={showScore}
+                    onClose={closeHandlerScore}
+                >
+                    <Text>{scoreResult?.email}</Text>
+                    <Text>{scoreResult?.phone}</Text>
+                    <Text>{scoreResult?.swift}</Text>
                 </Modal>
             </div> : 
             <Grid.Container gap={2} direction="column" justify="center" alignContent="center" alignItems="center">
