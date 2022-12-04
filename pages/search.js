@@ -424,10 +424,22 @@ function SearchPage() {
                             <Text id="modal-description">
                             </Text>
                             <Text id="modal-title" h3>
-                                {swiftResult?.bank}
+                                {swiftResult?.data.bank.name}
                             </Text>
-                            <Text id="modal-title" size={30}>
-                                Country: <b>{swiftResult?.country}</b>
+                            <Text id="modal-title" size={20}>
+                                Bank code: <b>{swiftResult?.data.bank.code}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Country: <b>{swiftResult?.data.country.name}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                City: <b>{swiftResult?.data.city.name}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Address: <b>{swiftResult?.data.address}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Postal code: <b>{swiftResult?.data.postcode}</b>
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
