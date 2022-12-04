@@ -269,7 +269,7 @@ function SearchPage() {
                         </Grid.Container>
                     </Collapse>
 
-                    <Collapse title="Personal ID (KYC)" disabled>
+                    <Collapse title="Personal ID (KYC) coming soon..." disabled>
                         <Text>Enter submit the personal ID to do an exhaustive KYC
                             analysis of the person you think is a scammer</Text>
                         <Grid.Container gap={2} justify="space-between">
