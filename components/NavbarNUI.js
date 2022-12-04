@@ -29,6 +29,15 @@ export default function NavbarNUI() {
         router.push("/");
     }
 
+    async function setUser(token, user) {
+        const data = await Api.getUser();
+        context.setTokenContext(token)
+        context.setUsernameContext(user);
+        context.setRoleContext(data.role)
+        setUserEmail(data.email);
+        setUsername(user);
+    }
+
     useEffect(() => {
         if(enterEffect){
             // console.log("ok");
@@ -36,18 +45,9 @@ export default function NavbarNUI() {
             var user = localStorage.getItem("username");
             Api.setToken(token);
             Api.setUsername(user);
-            // declare the data fetching function
-            const emailCall = async () => {
-                if (token) {
-                    const data = await Api.getUserEmail();
-                    context.setTokenContext(token)
-                    context.setUsernameContext(username);
-                    setUserEmail(data.email);
-                    setUsername(username);
-                }
+            if (token) {
+                setUser(token, user);
             }
-            // call the function
-            emailCall();
             setEnterEffect(false);
         }
     });
@@ -90,10 +90,7 @@ export default function NavbarNUI() {
         const res = await Api.login(newUser, rememberMe);
         if (res) {
             const name = emailLogIn.substring(0, emailLogIn.indexOf('@'))
-            context.setTokenContext(res);
-            context.setUsernameContext(name);
-            setUsername(name);
-            setUserEmail(emailLogIn);
+            setUser(res, name);
             setEnterEffect(false);
             closeHandler();
         } else {
@@ -262,6 +259,16 @@ export default function NavbarNUI() {
               <Text b color="inherit" css={{ d: "flex" }}>
               {userEmail}
               </Text>
+            </Dropdown.Item>
+            <Dropdown.Item key="role" css={{ height: "$18" }}>
+            {context.roleContext ?
+              <Text b color="inherit" css={{ d: "flex" }}>
+                Premium Plan
+              </Text> :
+              <Text b color="inherit" css={{ d: "flex" }}>
+                Free Plan
+              </Text>            
+            }
             </Dropdown.Item>
             <Dropdown.Item key="logout" color="error" withDivider>
               Log Out

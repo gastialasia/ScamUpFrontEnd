@@ -1,7 +1,7 @@
 import { width } from "@mui/system";
 import { Card, Grid, Link, Text, Badge, Button } from "@nextui-org/react";
 
-export default function PrincingCard({ planName, pricePerMonth, features, showButton, rightText, rightTextColor }) {
+export default function PrincingCard({ planName, pricePerMonth, features, isCurrent, comingSoon, hasButton, buttonText }) {
   return (
     <div>
       <Card isHoverable css={{ p: "$6", height: "300px", width: "400px" }}>
@@ -31,12 +31,10 @@ export default function PrincingCard({ planName, pricePerMonth, features, showBu
         <Card.Footer>
           <Grid.Container
             justify="center"
-            alignContent="center"
-          >
-            {showButton ? (<Button>Purchase plan</Button>) : <div></div>}
-            <Text color={rightTextColor} size={18} >
-              {rightText}
-            </Text>
+            alignContent="center">
+              {hasButton ? (<Button>{buttonText}</Button>) : <></>}
+              {isCurrent ? <Text color="primary" size={18}> Current plan </Text> : <></>}
+              {comingSoon ? <Text color="grey" size={18}> Coming soon </Text> : <></>}
           </Grid.Container>
         </Card.Footer>
       </Card>

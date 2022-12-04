@@ -9,18 +9,19 @@ function MyApp({ Component, pageProps }) {
 
   const [tokenContext, setTokenContext] = useState(null)
   const [usernameContext, setUsernameContext] = useState(null)
+  const [roleContext, setRoleContext] = useState(null)
 
   useEffect(() => {
       const token = window.localStorage.getItem("x-token");
       const username = window.localStorage.getItem("username");
       if (token && username) {
-      setTokenContext(token)
-      setUsernameContext(username)
+        setTokenContext(token)
+        setUsernameContext(username)
       }
   });
 
   return (
-    <AppContext.Provider value={{ usernameContext, setUsernameContext, tokenContext, setTokenContext }}>
+    <AppContext.Provider value={{ usernameContext, setUsernameContext, tokenContext, setTokenContext, roleContext, setRoleContext }}>
       <NextUIProvider>
         <Layout>
           <Component {...pageProps} />

@@ -17,13 +17,42 @@ function PricingPage() {
             <div style={{ padding: 15 }}>
                 <Grid.Container justify="center" gap={2} fluid>
                     <Grid xs={12} sm={6} md={4} lg={3}>
-                        <PrincingCard planName="Free Plan" pricePerMonth="$0/month" features={{one:"✅   10 searches per month", two:"✅   Individual searches only"}} rightText="Current plan" rightTextColor="primary" />
+                        <PrincingCard
+                            planName="Free Plan"
+                            pricePerMonth="$0/month"
+                            features={{ one: "✅   10 searches per month", two: "✅   Individual searches only" }}
+                            rightText="Current plan"
+                            rightTextColor="primary"
+                            isCurrent={context.roleContext === 0}
+                            comingSoon={false}
+                            hasButton={context.roleContext !== 0}
+                            buttonText="Restore plan" />
                     </Grid>
                     <Grid xs={12} sm={6} md={4} lg={3}>
-                        <PrincingCard planName="Pro Plan" pricePerMonth="$10/month" features={{one:"✅   Unlimited searches per month", two:"✅   Search multiple types of information and get a reputation score"}} showButton = {true} />
+                        <PrincingCard
+                            planName="Premium Plan"
+                            pricePerMonth="$10/month"
+                            features={{
+                                one: "✅   Unlimited searches per month",
+                                two: "✅   Search multiple types of information and get a reputation score"
+                            }}
+                            isCurrent={context.roleContext === 1}
+                            comingSoon={false}
+                            hasButton={context.roleContext !== 1}
+                            buttonText="Purchase plan" />
                     </Grid>
                     <Grid xs={12} sm={6} md={4} lg={3}>
-                        <PrincingCard planName="Business Plan" pricePerMonth="$50/month" features={{one:"✅   Unlimited searches per month", two:"✅   Search multiple types of information and get a reputation score", three:"✅   Complete access to our API"}} rightText="Coming soon" rightTextColor="grey" />
+                        <PrincingCard
+                            planName="Business Plan"
+                            pricePerMonth="$50/month"
+                            features={{
+                                one: "✅   Unlimited searches per month",
+                                two: "✅   Search multiple types of information and get a reputation score",
+                                three: "✅   Complete access to our API"
+                            }}
+                            isCurrent={false}
+                            comingSoon={true}
+                            hasButton={false} />
                     </Grid>
                 </Grid.Container>
             </div>

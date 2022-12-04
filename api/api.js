@@ -141,7 +141,7 @@ class Api {
   return await Api.get(url)
 }
 
-  static async getUserEmail() {
+  static async getUser() {
   try {
     const url = `${Api.baseUrl}/users/userData`;
     const res = await Api.post(url);
