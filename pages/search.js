@@ -224,9 +224,9 @@ function SearchPage() {
                         disabled={!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid || context.roleContext == 0}
                         onPress={handleScore}
                         width={250}
-                        css={{ m: 10 }}
+                        css={{ m: 10, zIndex: 3 }}
                     >
-                        <Text css={{ zIndex: 3 }}>{context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}</Text>
+                        <Text>{context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}</Text>
                     </Button>
                 </Grid.Container>
 
