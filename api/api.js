@@ -111,52 +111,49 @@ class Api {
       console.log(e);
       return 0;
     }
-}
+  }
 
   static async logout() {
-  console.log("logout")
-  this.token = null;
-  this.username = null;
-  window.localStorage.removeItem("x-token");
-  window.localStorage.removeItem("username");
-}
+    console.log("logout")
+    this.token = null;
+    this.username = null;
+    window.localStorage.removeItem("x-token");
+    window.localStorage.removeItem("username");
+  }
 
   static async createUser(user) {
-  const url = `${Api.baseUrl}/users`
-  return await Api.post(url, user);
-}
+    const url = `${Api.baseUrl}/users`
+    return await Api.post(url, user);
+  }
 
   static async getEmailData(mail) {
-  const url = `${Api.baseUrl}/email_verification?mail=${mail}`
-  return await Api.get(url)
-}
+    const url = `${Api.baseUrl}/email_verification?mail=${mail}`
+    return await Api.get(url)
+  }
 
   static async getPhoneData(number) {
-  const url = `${Api.baseUrl}/phone_verification?phone=${number}`
-  return await Api.get(url)
-}
+    const url = `${Api.baseUrl}/phone_verification?phone=${number}`
+    return await Api.get(url)
+  }
 
   static async getSwiftData(swift) {
-  const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
-  return await Api.get(url)
-}
+    const url = `${Api.baseUrl}/swift_verification?swift=${swift}`;
+    return await Api.get(url)
+  }
 
   static async getUser() {
-  try {
-    const url = `${Api.baseUrl}/users/userData`;
-    const res = await Api.post(url);
-    return res;
-  } catch (e) {
-    return '';
+    try {
+      const url = `${Api.baseUrl}/users/userData`;
+      const res = await Api.post(url);
+      return res;
+    } catch (e) {
+      return '';
+    }
   }
-}
 
   static async getScore(data) {
-    /*
-    const url = `${Api.baseUrl}/AAAAAAAAAAAAAAAAAAAAAAAAAAAA`;
-    return await Api.post(url, data)
-    */
-   return data
+    const url = `${Api.baseUrl}/score_calculator?mail=${data.email}&phone=${data.phone}&swift=${data.swift}`
+    return await Api.get(url)
   }
 }
 
