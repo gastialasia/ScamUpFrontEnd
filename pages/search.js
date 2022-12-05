@@ -226,7 +226,7 @@ function SearchPage() {
                         width={250}
                         css={{ m: 10 }}
                     >
-                        {context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}
+                        <Text css={{ zIndex: 3 }}>{context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}</Text>
                     </Button>
                 </Grid.Container>
 
