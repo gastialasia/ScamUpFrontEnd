@@ -161,6 +161,11 @@ class Api {
       "totalScore": 7.4
     }
   }
+
+  static async getPaymentLink(data) {
+    const url = `${Api.baseUrl}/payment`
+    return await Api.get(url)
+  }
 }
 
 class ApiUser {
