@@ -334,7 +334,7 @@ function SearchPage() {
                         </Grid.Container>
                     </Collapse>
 
-                    <Collapse title="Personal ID (KYC)" disabled>
+                    <Collapse title="Personal ID (KYC) coming soon..." disabled>
                         <Text>Enter submit the personal ID to do an exhaustive KYC
                             analysis of the person you think is a scammer</Text>
                         <Grid.Container gap={2} justify="space-between">
@@ -383,6 +383,10 @@ function SearchPage() {
                             <Text id="modal-title" h4>
                                 {emailResult?.email}
                             </Text>
+                            {emailResult?.details.domain_exists === false ? 
+                            <Text id="modal-title" size={20} >
+                                "This domain doesn't exist"
+                            </Text> : <div/>}
                             <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
                                 {emailResult?.suspicious ? "Suspicious" : "Not Suspicious"}
                             </Text>
@@ -390,13 +394,34 @@ function SearchPage() {
                                 Reputation: <b>{emailResult?.reputation}</b>
                             </Text>
                             <Text id="modal-title" size={20} >
-                                Domain reputation: <b>{emailResult?.domain_reputation}</b>
+                                {emailResult?.details.blacklisted ? "Blacklisted email" : "Not blacklisted email"}
                             </Text>
                             <Text id="modal-title" size={20} >
-                                {emailResult?.spam ? "This is a spam email" : "This is not a spam email"}
+                                {emailResult?.details.malicious_activity ? "Malicious activity detected" : "No malicious activity detected"}
                             </Text>
                             <Text id="modal-title" size={20} >
-                                {emailResult?.blacklistes ? "This email is blacklisted" : "This email is not blacklisted"}
+                                {emailResult?.details.credentials_leaked ? "This email credentials have been leaked" : "No leaked credentials reported"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.data_breach ? "This email has been in a data breach" : "This email is safe from data breaches"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                Last seen: {emailResult?.details.last_seen}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.spam ? "Spam detected" : "Spam not detected"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.free_provider ? "This email is free provided" : "This is a paid email"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.spoofable ? "Spoofable email" : "Non spoofable email"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.spf_strict ? "Has receiving restrictions" : "Has no receiving restrictions"}
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                {emailResult?.details.spf_strict ? "Has DMARC enforcement" : "No DMARC enforcement detected"}
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
@@ -424,14 +449,20 @@ function SearchPage() {
                         <Grid.Container direction="column">
                             <Text id="modal-description">
                             </Text>
-                            <Text id="modal-title" h2 style={emailResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
+                            <Text id="modal-title" h2 style={phoneResult?.suspicious ? { color: 'red' } : { color: 'green' }}>
                                 {phoneResult?.valid ? "Valid" : "Invalid"}
                             </Text>
                             <Text id="modal-title" size={20}>
                                 Country: <b>{phoneResult?.country_name}</b>
                             </Text>
+                            <Text id="modal-title" size={20}>
+                                Location: <b>{phoneResult?.location}</b>
+                            </Text>
                             <Text id="modal-title" size={20} >
                                 Carrier: <b>{phoneResult?.carrier}</b>
+                            </Text>
+                            <Text id="modal-title" size={20} >
+                                Line type: <b>{phoneResult?.line_type}</b>
                             </Text>
                         </Grid.Container>
                     </Modal.Body>
@@ -459,10 +490,22 @@ function SearchPage() {
                             <Text id="modal-description">
                             </Text>
                             <Text id="modal-title" h3>
-                                {swiftResult?.bank}
+                                {swiftResult?.data.bank.name}
                             </Text>
-                            <Text id="modal-title" size={30}>
-                                Country: <b>{swiftResult?.country}</b>
+                            <Text id="modal-title" size={20}>
+                                Bank code: <b>{swiftResult?.data.bank.code}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Country: <b>{swiftResult?.data.country.name}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                City: <b>{swiftResult?.data.city.name}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Address: <b>{swiftResult?.data.address}</b>
+                            </Text>
+                            <Text id="modal-title" size={20}>
+                                Postal code: <b>{swiftResult?.data.postcode}</b>
                             </Text>
                         </Grid.Container>
                     </Modal.Body>

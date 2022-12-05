@@ -152,14 +152,8 @@ class Api {
   }
 
   static async getScore(data) {
-    //const url = `${Api.baseUrl}/score_calculator?mail=${data.email}&phone=${data.phone}&swift=${data.swift}`
-    //return await Api.get(url)
-    return {
-      "mailScore": 3.4000000000000004,
-      "phoneScore": 2,
-      "swiftScore": 2,
-      "totalScore": 7.4
-    }
+    const url = `${Api.baseUrl}/score_calculator?mail=${data.email}&phone=${data.phone}&swift=${data.swift}`
+    return await Api.get(url)
   }
 
   static async getPaymentLink() {
