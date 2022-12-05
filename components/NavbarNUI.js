@@ -43,9 +43,9 @@ export default function NavbarNUI() {
             // console.log("ok");
             var token = localStorage.getItem("x-token");
             var user = localStorage.getItem("username");
-            Api.setToken(token);
-            Api.setUsername(user);
             if (token) {
+                Api.setToken(token);
+                Api.setUsername(user);
                 setUser(token, user);
             }
             setEnterEffect(false);
@@ -221,7 +221,7 @@ export default function NavbarNUI() {
                 </NextLink>
             </Navbar.Content>
             <Navbar.Content>
-                { userEmail === '' ? <div>
+                { Api.token === null ? <div>
                     <Navbar.Content>
                 <Navbar.Item>
                     <Button auto light as={Link} color={"primary"} onPress={handler} css={{ px: 0 }}>
