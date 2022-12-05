@@ -162,7 +162,7 @@ class Api {
     }
   }
 
-  static async getPaymentLink(data) {
+  static async getPaymentLink() {
     const url = `${Api.baseUrl}/payment`
     return await Api.get(url)
   }
