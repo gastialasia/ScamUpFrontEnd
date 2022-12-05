@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useEffect, useContext  } from "react";
-import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading } from "@nextui-org/react";
+import { useEffect, useContext } from "react";
+import { Collapse, Text, Input, Grid, Button, Modal, useModal, Progress, Loading, Col } from "@nextui-org/react";
 import { Api } from "../api/api";
 import { useRouter } from 'next/router'
 import AppContext from "../components/AppContext";
@@ -200,24 +200,28 @@ function SearchPage() {
     return (
         context.tokenContext ?
             <div style={{ padding: 15 }}>
+
+                <Grid.Container
+                    justify="center"
+                    direction="column"
+                    alignContent="center"
+                    alignItems="center"
+                >
+                    <h2 style={{ textAlign: "center" }}>Search for scammers</h2>
+                </Grid.Container>
+
+
                 <Grid.Container
                     justify="center"
                     direction="column"
                     alignContent="center"
                 >
-                    <h2 style={{ textAlign: "center" }}>Search for scammers</h2>
+                    <h3 style={{ textAlign: "center" }} color = "primary">Individual search</h3>
                     <p>
                         Expand the items below and enter the required information of
                         the person you think is a scammer. It's not mandatory to
                         fill all fields.
                     </p>
-                    {context.roleContext ? 
-                    <Button
-                        disabled = {!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid}
-                        onPress = {handleScore}
-                    >
-                        Score Search
-                    </Button>: <></>}
                 </Grid.Container>
 
                 <Collapse.Group accordion={false} bordered css={{ margin: 50 }} >
@@ -243,7 +247,7 @@ function SearchPage() {
                                     auto
                                     onPress={handleEmail}
                                     css={{ width: 204, zIndex: 3 }}
-                                    disabled = {!emailHelper.valid}
+                                    disabled={!emailHelper.valid}
                                 >
                                     {loadingEmail ? <Loading color="currentColor" size="sm" /> : 'Search by email'}
                                 </Button>
@@ -273,7 +277,7 @@ function SearchPage() {
                                     auto
                                     onPress={handlePhone}
                                     css={{ width: 204, zIndex: 3 }}
-                                    disabled = {!phoneHelper.valid}
+                                    disabled={!phoneHelper.valid}
                                 >
                                     {loadingPhone ? <Loading color="currentColor" size="sm" /> : 'Search by phone number'}
                                 </Button>
@@ -303,7 +307,7 @@ function SearchPage() {
                                     auto
                                     onPress={handleSwift}
                                     css={{ width: 204, zIndex: 3 }}
-                                    disabled = {!swiftHelper.valid}
+                                    disabled={!swiftHelper.valid}
                                 >
                                     {loadingSwift ? <Loading color="currentColor" size="sm" /> : 'Search by Swift code'}
                                 </Button>
@@ -339,6 +343,31 @@ function SearchPage() {
                         </Grid.Container>
                     </Collapse>
                 </Collapse.Group>
+
+                <Grid.Container
+                    justify="center"
+                    direction="column"
+                    alignContent="center"
+                    alignItems="center"
+                >
+                    <h3 style={{ textAlign: "center" }} color = "primary">Reputation score</h3>
+                    <p>
+                        Click here to get a score of your counterpart reputation based on the data entered above. Please make sure the email, phone and Swift code fields are completed.
+                    </p>
+                    <Button
+                        disabled={!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid || context.roleContext == 0}
+                        onPress={handleScore}
+                        width={250}
+                        css={{ mt: 20 }}
+                    >
+                        {context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}
+                    </Button>
+                </Grid.Container>
+
+
+
+
+
                 <Modal
                     scroll
                     width="600px"
@@ -460,15 +489,15 @@ function SearchPage() {
                     <Text>{scoreResult?.phone}</Text>
                     <Text>{scoreResult?.swift}</Text>
                 </Modal>
-            </div> : 
+            </div> :
             <Grid.Container gap={2} direction="column" justify="center" alignContent="center" alignItems="center">
-            <Grid>
-                <Text color="Grey" size={40}>You are not logged in</Text>
-            </Grid>
-            <Grid>
-                <Text color="Grey">Please log in or create a ScamUp account to start searching for scammers.</Text>
-            </Grid>
-        </Grid.Container>
+                <Grid>
+                    <Text color="Grey" size={40}>You are not logged in</Text>
+                </Grid>
+                <Grid>
+                    <Text color="Grey">Please log in or create a ScamUp account to start searching for scammers.</Text>
+                </Grid>
+            </Grid.Container>
     );
 }
 
