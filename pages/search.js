@@ -210,6 +210,25 @@ function SearchPage() {
                     <h2 style={{ textAlign: "center" }}>Search for scammers</h2>
                 </Grid.Container>
 
+                <Grid.Container
+                    justify="center"
+                    direction="column"
+                    alignContent="center"
+                    alignItems="center"
+                >
+                    <h3 style={{ textAlign: "center" }} color = "primary">Calculate reputation</h3>
+                    <p>
+                        Click here to get a score of your counterpart reputation based on the data entered below. Please make sure the email, phone and Swift code fields are completed.
+                    </p>
+                    <Button
+                        disabled={!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid || context.roleContext == 0}
+                        onPress={handleScore}
+                        width={250}
+                        css={{ m: 10 }}
+                    >
+                        {context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}
+                    </Button>
+                </Grid.Container>
 
                 <Grid.Container
                     justify="center"
@@ -343,30 +362,6 @@ function SearchPage() {
                         </Grid.Container>
                     </Collapse>
                 </Collapse.Group>
-
-                <Grid.Container
-                    justify="center"
-                    direction="column"
-                    alignContent="center"
-                    alignItems="center"
-                >
-                    <h3 style={{ textAlign: "center" }} color = "primary">Reputation score</h3>
-                    <p>
-                        Click here to get a score of your counterpart reputation based on the data entered above. Please make sure the email, phone and Swift code fields are completed.
-                    </p>
-                    <Button
-                        disabled={!emailHelper.valid || !phoneHelper.valid || !swiftHelper.valid || context.roleContext == 0}
-                        onPress={handleScore}
-                        width={250}
-                        css={{ mt: 20 }}
-                    >
-                        {context.roleContext == 0 ? "Get score (Premium only)" : "Get score"}
-                    </Button>
-                </Grid.Container>
-
-
-
-
 
                 <Modal
                     scroll
