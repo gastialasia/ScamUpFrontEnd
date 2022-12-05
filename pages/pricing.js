@@ -2,11 +2,29 @@ import { Card, Grid, Link, Text, Col, Row } from "@nextui-org/react";
 import PrincingCard from "../components/PricingCard";
 import { useContext } from 'react';
 import AppContext from "../components/AppContext";
+import * as React from "react"
+import { useEffect } from "react";
+import { Api } from "../api/api";
 
 
 function PricingPage() {
 
+    const [paymentLink, setPaymentLink] = React.useState("");
+    const [firstRequest, setFirstRequest] = React.useState(true);
+
     const context = useContext(AppContext);
+
+    async function getPaymentLink() {
+        const res = await Api.getPaymentLink()
+        setPaymentLink(res.init_point)
+      }
+    
+      useEffect(() => {
+        if (context.tokenContext) {
+            console.log("entro");
+            getPaymentLink()
+        }
+      },[context.tokenContext]);
 
     return (
         <div div style={{ padding: 12 }}>
@@ -23,9 +41,9 @@ function PricingPage() {
                             features={{ one: "✅   10 searches per month", two: "✅   Individual searches only" }}
                             rightText="Current plan"
                             rightTextColor="primary"
-                            isCurrent={context.roleContext === 0}
+                            isCurrent={context.roleContext === 0 && context.tokenContext}
                             comingSoon={false}
-                            hasButton={context.roleContext !== 0}
+                            hasButton={context.roleContext !== 0 && context.tokenContext}
                             buttonText="Restore plan" />
                     </Grid>
                     <Grid xs={12} sm={6} md={4} lg={4} xl={3}>
@@ -36,10 +54,12 @@ function PricingPage() {
                                 one: "✅   Unlimited searches per month",
                                 two: "✅   Search multiple types of information and get a reputation score"
                             }}
-                            isCurrent={context.roleContext === 1}
+                            isCurrent={context.roleContext === 1 && context.tokenContext}
                             comingSoon={false}
-                            hasButton={context.roleContext !== 1}
-                            buttonText="Purchase plan" />
+                            hasButton={context.roleContext !== 1 && context.tokenContext}
+                            buttonText="Purchase plan" 
+                            link = {paymentLink}
+                            />
                     </Grid>
                     <Grid xs={12} sm={6} md={4} lg={4} xl={3}>
                         <PrincingCard

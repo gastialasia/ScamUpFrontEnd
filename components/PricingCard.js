@@ -1,33 +1,18 @@
 import { width } from "@mui/system";
 import { Card, Grid, Link, Text, Badge, Button } from "@nextui-org/react";
-import { Api } from "../api/api";
 import * as React from "react";
 import { useRouter } from 'next/router';
 import NextLink from "next/link";
-import { useEffect } from "react";
-
-export default function PrincingCard({ planName, pricePerMonth, features, isCurrent, comingSoon, hasButton, buttonText }) {
 
 
-  const [paymentLink, setPaymentLink] = React.useState("");
-  const [firstRequest, setFirstRequest] = React.useState(true);
+export default function PrincingCard({ planName, pricePerMonth, features, isCurrent, comingSoon, hasButton, buttonText, link }) {
 
   const router = useRouter();
 
-  async function getPaymentLink() {
-    const res = await Api.getPaymentLink()
-    setPaymentLink(res.init_point)
-  }
-
-  useEffect(() => {
-    if(firstRequest){
-      getPaymentLink()
-      setFirstRequest(false);
-    }
-  },[firstRequest]);
-
   function goToPayment(){
-    router.push(paymentLink)
+    if (link) {
+      router.push(link)
+    }
   }
   
   return (
