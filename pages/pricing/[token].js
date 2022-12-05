@@ -3,6 +3,7 @@ import { useEffect, useContext } from "react";
 import AppContext from "../../components/AppContext";
 import { Api } from "../../api/api";
 import * as React from "react"
+import { Grid } from "@nextui-org/react";
 
 export default function GetToken() {
     const router = useRouter();
@@ -37,48 +38,11 @@ export default function GetToken() {
         }
         router.push("/pricing");
     }
-    /**
-    useEffect(() => {
-        // // if(token) {
-        // //     // while (!token) {
-        // //         //     token = router.query.token;
-        // //         // }
-        // //         Api.setToken(token);
-        // console.log(token);
-        // Api.setUsername("User");
-        // const data = Api.getUser();
-        // console.log(data);
-        // // }
-        
-         * 
-         if (data) {
-             const name = data.email?.substring(0, data.email.indexOf('@'));
-             // var ok = localStorage.getItem("x-token");
-             // if (ok) {
-                 localStorage.setItem("x-token", token);
-                 // }
-                 Api.setUsername(name);
-                 context.setTokenContext(token)
-                 context.setUsernameContext(name);
-                 context.setRoleContext(data.role)
-                }
-                router.push("/pricing");
-            });
-            */
-    // async function getUsr() {
-    //     return await Api.getUser();
-    // }
 
-    // if(token && ok) {
-    //     Api.setToken(token);
-    //     Api.setUsername("MyUser");
-    //     console.log(token);
-    //     console.log(Api.token);
-    //     // const data = getUsr();
-    //     // console.log(data);
-
-    //     ok = false;
-    // }
-
-    return <h1>Redirecting...</h1>
+    return ( 
+    <div div style={{ padding: 12 }}>
+        <Grid.Container justify="center" direction="column" alignContent="center">
+            <h2 style={{ textAlign: 'center' }}>Redirecting...</h2>
+        </Grid.Container>
+    </div>)
 }
