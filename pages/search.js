@@ -473,16 +473,50 @@ function SearchPage() {
                     </Modal.Footer>
                 </Modal>
                 <Modal
-                    scroll
                     width="600px"
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                     open={showScore}
                     onClose={closeHandlerScore}
                 >
-                    <Text>{scoreResult?.email}</Text>
-                    <Text>{scoreResult?.phone}</Text>
-                    <Text>{scoreResult?.swift}</Text>
+                    <Modal.Header>
+                        <Text id="modal-title" h2 color="primary">
+                            Score results
+                        </Text>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Grid.Container gap={2}>
+                            <Grid xs={12}>
+                                <Col>
+                                    <Text>Email score: {parseFloat(scoreResult?.mailScore).toFixed(1)}/5</Text>
+                                    <Progress color="primary" animated={false} value={parseInt(scoreResult?.mailScore*10, 10)} max={50} />
+                                </Col>
+                            </Grid>
+                            <Grid xs={12}>
+                                <Col>
+                                    <Text>Phone score: {scoreResult?.phoneScore}/2</Text>
+                                    <Progress color="primary" animated={false} value={scoreResult?.phoneScore*10} max={20} />
+                                </Col>
+                            </Grid>
+                            <Grid xs={12}>
+                                <Col>
+                                    <Text>Swift score: {scoreResult?.swiftScore}/3</Text>
+                                    <Progress color="primary" animated={false} value={scoreResult?.swiftScore*10} max={30} />
+                                </Col>
+                            </Grid>
+                            <Grid xs={12}>
+                                <Col>
+                                    <Text>Overall: {parseFloat(scoreResult?.totalScore).toFixed(1)}/10</Text>
+                                    <Progress color="primary" animated={false} value={scoreResult?.totalScore*10} max={100} />
+                                </Col>
+                            </Grid>
+                        </Grid.Container>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button auto onPress={() => setShowScore(false)}>
+                            Ok
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
             </div> :
             <Grid.Container gap={2} direction="column" justify="center" alignContent="center" alignItems="center">
