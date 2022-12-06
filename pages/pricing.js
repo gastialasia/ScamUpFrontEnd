@@ -38,7 +38,7 @@ function PricingPage() {
                         <PrincingCard
                             planName="Free Plan"
                             pricePerMonth="$0/month"
-                            features={{ one: "✅   10 searches per month", two: "✅   Individual searches only" }}
+                            features={{ one: "✅   10 searches per month", two: "✅   Can only access to indivual searches, our custom score is not free :)" }}
                             rightText="Current plan"
                             rightTextColor="primary"
                             isCurrent={context.roleContext === 0 && context.tokenContext}

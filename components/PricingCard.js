@@ -17,7 +17,7 @@ export default function PrincingCard({ planName, pricePerMonth, features, isCurr
   
   return (
     <div>
-      <Card isHoverable css={{ p: "$6", height: "300px", width: "400px" }}>
+      <Card isHoverable css={{ p: "$6", height: "300px", width: "100%" }}>
         <Card.Header>
           <Grid.Container css={{ pl: "$6" }}>
             <Grid xs={12}>
